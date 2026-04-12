@@ -1,7 +1,8 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { JetBrains_Mono,Plus_Jakarta_Sans } from "next/font/google";
+import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -31,7 +32,10 @@ export default function RootLayout({
       lang="en"
       className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        {children}
+        {process.env.NODE_ENV === "production" && <Analytics />}
+      </body>
     </html>
   );
 }
