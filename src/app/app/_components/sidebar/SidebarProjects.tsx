@@ -4,7 +4,7 @@ export function SidebarProjects() {
   return (
     <div className="mt-4 flex flex-col gap-0.5 px-2">
       <div className="flex items-center justify-between px-2.5 py-1">
-        <p className="text-xs font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+        <p className="text-xs font-medium tracking-wider text-zinc-400 uppercase dark:text-zinc-500">
           Projects
         </p>
         <button

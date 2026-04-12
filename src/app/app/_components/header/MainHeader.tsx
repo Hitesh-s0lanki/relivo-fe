@@ -39,7 +39,7 @@ export function MainHeader() {
               >
                 <Bell className="size-4" />
                 {/* Notification dot */}
-                <span className="absolute right-1.5 top-1.5 size-1.5 rounded-full bg-violet-500" />
+                <span className="absolute top-1.5 right-1.5 size-1.5 rounded-full bg-violet-500" />
               </button>
             </TooltipTrigger>
             <TooltipContent>Notifications</TooltipContent>

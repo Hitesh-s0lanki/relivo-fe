@@ -5,11 +5,7 @@ import { useState } from "react";
 import { MainHeader } from "./_components/header/MainHeader";
 import { AppSidebar } from "./_components/sidebar/AppSidebar";
 
-export default function AppLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
@@ -20,9 +16,7 @@ export default function AppLayout({
       />
       <div className="flex flex-1 flex-col overflow-hidden">
         <MainHeader />
-        <div className="flex flex-1 flex-col overflow-y-auto">
-          {children}
-        </div>
+        <div className="flex flex-1 flex-col overflow-y-auto">{children}</div>
       </div>
     </div>
   );

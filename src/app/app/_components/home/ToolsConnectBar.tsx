@@ -4,14 +4,14 @@ import { useState } from "react";
 import { Link2, X } from "lucide-react";
 
 const TOOLS = [
-  { label: "Slack",  bg: "bg-[#611f69]", text: "S" },
+  { label: "Slack", bg: "bg-[#611f69]", text: "S" },
   { label: "GitHub", bg: "bg-[#24292e]", text: "G" },
-  { label: "Notion", bg: "bg-zinc-800",  text: "N" },
-  { label: "Jira",   bg: "bg-[#0052cc]", text: "J" },
-  { label: "Figma",  bg: "bg-[#a259ff]", text: "F" },
-  { label: "Gmail",  bg: "bg-[#ea4335]", text: "G" },
+  { label: "Notion", bg: "bg-zinc-800", text: "N" },
+  { label: "Jira", bg: "bg-[#0052cc]", text: "J" },
+  { label: "Figma", bg: "bg-[#a259ff]", text: "F" },
+  { label: "Gmail", bg: "bg-[#ea4335]", text: "G" },
   { label: "Linear", bg: "bg-[#5e6ad2]", text: "L" },
-  { label: "Drive",  bg: "bg-[#1a73e8]", text: "D" },
+  { label: "Drive", bg: "bg-[#1a73e8]", text: "D" },
 ];
 
 export function ToolsConnectBar() {

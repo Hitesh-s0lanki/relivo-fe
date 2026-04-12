@@ -85,7 +85,7 @@ export default function DocsPage() {
       {/* Header */}
       <section className="border-b border-gray-100 px-6 py-24">
         <div className="mx-auto max-w-4xl">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-gray-400">
+          <p className="mb-2 text-sm font-semibold tracking-widest text-gray-400 uppercase">
             Documentation
           </p>
           <h1 className="mb-5 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
@@ -100,7 +100,7 @@ export default function DocsPage() {
               <Link
                 key={item.step}
                 href={item.href}
-                className="flex items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 hover:border-gray-300 hover:bg-white transition-colors cursor-pointer"
+                className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 transition-colors hover:border-gray-300 hover:bg-white"
               >
                 <span className="flex size-6 items-center justify-center rounded-full bg-gray-900 font-mono text-xs font-bold text-white">
                   {item.step}
@@ -136,13 +136,13 @@ export default function DocsPage() {
                     <h3 className="mb-1.5 text-base font-semibold text-gray-900">
                       {concept.title}
                     </h3>
-                    <p className="text-sm text-gray-500 leading-relaxed">
+                    <p className="text-sm leading-relaxed text-gray-500">
                       {concept.desc}
                     </p>
                   </div>
                 </div>
                 <div className="m-6 rounded-lg border border-gray-100 bg-gray-50 p-4">
-                  <pre className="font-mono text-sm text-gray-700 leading-relaxed overflow-x-auto">
+                  <pre className="overflow-x-auto font-mono text-sm leading-relaxed text-gray-700">
                     {concept.code}
                   </pre>
                 </div>
@@ -168,23 +168,25 @@ export default function DocsPage() {
                   {apiDocs.endpoint}
                 </code>
               </div>
-              <p className="mt-2 text-sm text-gray-500">{apiDocs.description}</p>
+              <p className="mt-2 text-sm text-gray-500">
+                {apiDocs.description}
+              </p>
             </div>
 
             <div className="grid lg:grid-cols-2">
-              <div className="border-b border-gray-100 p-6 lg:border-b-0 lg:border-r">
-                <p className="mb-3 font-mono text-xs font-semibold uppercase tracking-wider text-gray-400">
+              <div className="border-b border-gray-100 p-6 lg:border-r lg:border-b-0">
+                <p className="mb-3 font-mono text-xs font-semibold tracking-wider text-gray-400 uppercase">
                   Request
                 </p>
-                <pre className="font-mono text-sm text-gray-700 leading-relaxed overflow-x-auto">
+                <pre className="overflow-x-auto font-mono text-sm leading-relaxed text-gray-700">
                   {apiDocs.request}
                 </pre>
               </div>
               <div className="p-6">
-                <p className="mb-3 font-mono text-xs font-semibold uppercase tracking-wider text-gray-400">
+                <p className="mb-3 font-mono text-xs font-semibold tracking-wider text-gray-400 uppercase">
                   Response (stream)
                 </p>
-                <pre className="font-mono text-sm text-gray-700 leading-relaxed overflow-x-auto">
+                <pre className="overflow-x-auto font-mono text-sm leading-relaxed text-gray-700">
                   {apiDocs.response}
                 </pre>
               </div>
@@ -216,15 +218,15 @@ export default function DocsPage() {
               <Link
                 key={ex.title}
                 href={ex.href}
-                className="group rounded-lg border border-gray-200 bg-gray-50 p-6 hover:border-gray-300 hover:bg-white transition-all duration-200 cursor-pointer"
+                className="group cursor-pointer rounded-lg border border-gray-200 bg-gray-50 p-6 transition-all duration-200 hover:border-gray-300 hover:bg-white"
               >
                 <div className="mb-2 flex items-start justify-between gap-2">
-                  <h3 className="font-semibold text-gray-900 text-sm">
+                  <h3 className="text-sm font-semibold text-gray-900">
                     {ex.title}
                   </h3>
                   <ExternalLink className="size-3.5 shrink-0 text-gray-400" />
                 </div>
-                <p className="text-xs text-gray-500 leading-relaxed">
+                <p className="text-xs leading-relaxed text-gray-500">
                   {ex.desc}
                 </p>
               </Link>
@@ -240,7 +242,7 @@ export default function DocsPage() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-pointer"
+            className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50"
           >
             Contact Support
             <ArrowRight className="size-4" />

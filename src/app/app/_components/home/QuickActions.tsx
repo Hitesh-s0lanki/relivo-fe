@@ -1,4 +1,4 @@
-import { BarChart2, FileText,ImageIcon, Lightbulb } from "lucide-react";
+import { BarChart2, FileText, ImageIcon, Lightbulb } from "lucide-react";
 
 interface QuickAction {
   label: string;

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { BookOpen, Plug, Plus, Search,Settings, Workflow } from "lucide-react";
+import { BookOpen, Plug, Plus, Search, Settings, Workflow } from "lucide-react";
 
 import {
   Tooltip,
@@ -50,7 +50,7 @@ export function AppSidebar({ collapsed, onCollapse }: AppSidebarProps) {
       <aside
         className={cn(
           "relative flex shrink-0 flex-col overflow-hidden border-r border-zinc-200 bg-white transition-all duration-300 ease-in-out dark:border-zinc-800 dark:bg-zinc-950",
-          collapsed ? "w-12" : "w-60",
+          collapsed ? "w-12" : "w-60"
         )}
       >
         {/* Collapsed view */}
