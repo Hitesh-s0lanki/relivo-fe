@@ -2,7 +2,9 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next";
+import { Toaster } from "sonner";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -28,14 +30,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
+    <ClerkProvider
+      afterSignOutUrl="/sign-in"
+      appearance={{ variables: { colorPrimary: "#111827" } }}
     >
-      <body className="flex min-h-full flex-col">
-        {children}
-        {process.env.VERCEL_ENV === "production" && <Analytics />}
-      </body>
-    </html>
+      <html
+        lang="en"
+        className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      >
+        <body className="flex min-h-full flex-col">
+          {children}
+          <Toaster richColors position="bottom-right" visibleToasts={3} />
+          {process.env.VERCEL_ENV === "production" && <Analytics />}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
