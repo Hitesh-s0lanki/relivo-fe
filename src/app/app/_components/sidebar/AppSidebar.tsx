@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { UserButton } from "@clerk/nextjs";
 import { BookOpen, Plug, Plus, Search, Settings, Workflow } from "lucide-react";
 
 import {
@@ -135,17 +136,7 @@ export function AppSidebar({ collapsed, onCollapse }: AppSidebarProps) {
                 </div>
 
                 {/* User avatar */}
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <button
-                      className="flex size-7 cursor-pointer items-center justify-center rounded-full bg-violet-100 text-xs font-semibold text-violet-700 ring-2 ring-white transition-all hover:bg-violet-200 hover:ring-violet-100 dark:bg-violet-900/40 dark:text-violet-300 dark:ring-zinc-950"
-                      aria-label="Account"
-                    >
-                      H
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent side="top">Account</TooltipContent>
-                </Tooltip>
+                <UserButton />
               </div>
             </div>
           </div>

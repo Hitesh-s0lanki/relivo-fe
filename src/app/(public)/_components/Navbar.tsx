@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuth, UserButton } from "@clerk/nextjs";
 import { Menu, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -18,6 +19,7 @@ const navLinks = [
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const { isSignedIn } = useAuth();
 
   return (
     <header className="fixed top-0 right-0 left-0 z-50 border-b border-gray-200 bg-white/90 backdrop-blur-md">
@@ -56,18 +58,32 @@ export function Navbar() {
 
         {/* Desktop CTA */}
         <div className="hidden items-center gap-3 md:flex">
-          <Link
-            href="/login"
-            className="cursor-pointer text-sm font-medium text-gray-500 transition-colors duration-200 hover:text-gray-900"
-          >
-            Login
-          </Link>
-          <Link
-            href="/signup"
-            className="cursor-pointer rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-gray-700"
-          >
-            Get Started
-          </Link>
+          {isSignedIn ? (
+            <>
+              <Link
+                href="/app"
+                className="cursor-pointer text-sm font-medium text-gray-500 transition-colors duration-200 hover:text-gray-900"
+              >
+                Go to App
+              </Link>
+              <UserButton />
+            </>
+          ) : (
+            <>
+              <Link
+                href="/sign-in"
+                className="cursor-pointer text-sm font-medium text-gray-500 transition-colors duration-200 hover:text-gray-900"
+              >
+                Login
+              </Link>
+              <Link
+                href="/sign-up"
+                className="cursor-pointer rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-gray-700"
+              >
+                Get Started
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile toggle */}
@@ -95,20 +111,37 @@ export function Navbar() {
               </Link>
             ))}
             <div className="flex flex-col gap-3 border-t border-gray-100 pt-4">
-              <Link
-                href="/login"
-                onClick={() => setOpen(false)}
-                className="cursor-pointer text-sm font-medium text-gray-500 transition-colors hover:text-gray-900"
-              >
-                Login
-              </Link>
-              <Link
-                href="/signup"
-                onClick={() => setOpen(false)}
-                className="cursor-pointer rounded-lg bg-gray-900 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-gray-700"
-              >
-                Get Started
-              </Link>
+              {isSignedIn ? (
+                <>
+                  <Link
+                    href="/app"
+                    onClick={() => setOpen(false)}
+                    className="cursor-pointer text-sm font-medium text-gray-500 transition-colors hover:text-gray-900"
+                  >
+                    Go to App
+                  </Link>
+                  <div className="flex justify-start">
+                    <UserButton />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/sign-in"
+                    onClick={() => setOpen(false)}
+                    className="cursor-pointer text-sm font-medium text-gray-500 transition-colors hover:text-gray-900"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/sign-up"
+                    onClick={() => setOpen(false)}
+                    className="cursor-pointer rounded-lg bg-gray-900 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-gray-700"
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
