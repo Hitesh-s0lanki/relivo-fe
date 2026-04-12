@@ -46,8 +46,7 @@ export function MainHeader() {
             <TooltipContent>Notifications</TooltipContent>
           </Tooltip>
 
-          {/* @ts-expect-error - afterSignOutUrl prop exists at runtime despite type mismatch */}
-          <UserButton afterSignOutUrl="/sign-in" />
+          <UserButton />
         </div>
       </header>
     </TooltipProvider>
