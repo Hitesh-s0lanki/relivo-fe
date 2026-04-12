@@ -1,4 +1,3 @@
-import { UserButton } from "@clerk/nextjs";
 import { Bell, ChevronDown, HelpCircle } from "lucide-react";
 
 import {
@@ -45,8 +44,6 @@ export function MainHeader() {
             </TooltipTrigger>
             <TooltipContent>Notifications</TooltipContent>
           </Tooltip>
-
-          <UserButton />
         </div>
       </header>
     </TooltipProvider>
