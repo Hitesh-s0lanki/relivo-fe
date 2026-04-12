@@ -1,17 +1,17 @@
 import Link from "next/link";
 import {
   ArrowRight,
+  Bot,
+  CheckCircle2,
+  Code2,
+  Database,
   GitBranch,
   Layers,
-  Radio,
-  Database,
-  Code2,
-  MessageSquare,
-  Bot,
   Megaphone,
+  MessageSquare,
+  Radio,
   Search,
   Workflow,
-  CheckCircle2,
   Zap,
 } from "lucide-react";
 
@@ -132,44 +132,48 @@ export default function LandingPage() {
         <div
           className="pointer-events-none absolute inset-0"
           style={{
-            backgroundImage: "radial-gradient(circle, #d1d5db 1px, transparent 1px)",
+            backgroundImage:
+              "radial-gradient(circle, #d1d5db 1px, transparent 1px)",
             backgroundSize: "32px 32px",
-            maskImage: "radial-gradient(ellipse 70% 60% at 50% 0%, #000 30%, transparent 100%)",
+            maskImage:
+              "radial-gradient(ellipse 70% 60% at 50% 0%, #000 30%, transparent 100%)",
           }}
         />
 
         <div className="relative mx-auto max-w-4xl text-center">
           {/* Badge */}
           <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-1.5 shadow-sm">
-            <span className="size-1.5 rounded-full bg-gray-900 animate-pulse" />
-            <span className="text-xs font-semibold text-gray-900">Now in beta</span>
+            <span className="size-1.5 animate-pulse rounded-full bg-gray-900" />
+            <span className="text-xs font-semibold text-gray-900">
+              Now in beta
+            </span>
             <span className="text-xs text-gray-400">— join the waitlist</span>
           </div>
 
           {/* Headline */}
-          <h1 className="mb-6 text-6xl font-bold leading-[1.08] tracking-tight text-gray-900 md:text-[80px]">
+          <h1 className="mb-6 text-6xl leading-[1.08] font-bold tracking-tight text-gray-900 md:text-[80px]">
             Build AI systems
             <br />
             that think together
           </h1>
 
-          <p className="mx-auto mb-10 max-w-lg text-xl text-gray-500 leading-relaxed">
+          <p className="mx-auto mb-10 max-w-lg text-xl leading-relaxed text-gray-500">
             Coordinate multiple specialized agents with intelligent handoffs,
             real-time streaming, and full state control.
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row mb-14">
+          <div className="mb-14 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               href="/signup"
-              className="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-7 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
+              className="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-gray-900 px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-gray-700"
             >
               Get Started — it&apos;s free
               <ArrowRight className="size-4" />
             </Link>
             <Link
               href="/docs"
-              className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-7 py-3.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 hover:border-gray-300 transition-colors duration-200 cursor-pointer"
+              className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-white px-7 py-3.5 text-sm font-medium text-gray-700 shadow-sm transition-colors duration-200 hover:border-gray-300 hover:bg-gray-50"
             >
               <Code2 className="size-4 text-gray-400" />
               View Docs
@@ -200,7 +204,7 @@ export default function LandingPage() {
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-14 text-center">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-gray-400">
+            <p className="mb-2 text-sm font-semibold tracking-widest text-gray-400 uppercase">
               Why Relivo
             </p>
             <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">
@@ -213,7 +217,7 @@ export default function LandingPage() {
             {whyItems.map((item) => (
               <div
                 key={item.title}
-                className="rounded-lg border border-gray-100 bg-gray-50 p-6 transition-all duration-200 hover:border-gray-200 hover:shadow-sm cursor-default"
+                className="cursor-default rounded-lg border border-gray-100 bg-gray-50 p-6 transition-all duration-200 hover:border-gray-200 hover:shadow-sm"
               >
                 <div className="mb-4 flex size-9 items-center justify-center rounded-lg bg-gray-900">
                   <item.icon className="size-4 text-white" />
@@ -221,7 +225,7 @@ export default function LandingPage() {
                 <h3 className="mb-2 font-semibold text-gray-900">
                   {item.title}
                 </h3>
-                <p className="text-sm text-gray-500 leading-relaxed">
+                <p className="text-sm leading-relaxed text-gray-500">
                   {item.desc}
                 </p>
               </div>
@@ -234,13 +238,13 @@ export default function LandingPage() {
       <section className="border-t border-gray-100 bg-gray-50 py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-14 text-center">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-gray-400">
+            <p className="mb-2 text-sm font-semibold tracking-widest text-gray-400 uppercase">
               Use Cases
             </p>
             <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">
               What you can build
             </h2>
-            <p className="mt-3 max-w-xl mx-auto text-gray-500">
+            <p className="mx-auto mt-3 max-w-xl text-gray-500">
               Relivo is designed for developers and teams building advanced AI
               systems.
             </p>
@@ -250,16 +254,16 @@ export default function LandingPage() {
             {buildItems.map((item) => (
               <div
                 key={item.title}
-                className="group flex gap-4 rounded-lg border border-gray-200 bg-white p-6 transition-all duration-200 hover:border-gray-300 hover:shadow-sm cursor-default"
+                className="group flex cursor-default gap-4 rounded-lg border border-gray-200 bg-white p-6 transition-all duration-200 hover:border-gray-300 hover:shadow-sm"
               >
-                <div className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg border border-gray-100 bg-gray-50 group-hover:bg-gray-900 group-hover:border-gray-900 transition-all duration-200">
-                  <item.icon className="size-4 text-gray-500 group-hover:text-white transition-colors duration-200" />
+                <div className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg border border-gray-100 bg-gray-50 transition-all duration-200 group-hover:border-gray-900 group-hover:bg-gray-900">
+                  <item.icon className="size-4 text-gray-500 transition-colors duration-200 group-hover:text-white" />
                 </div>
                 <div>
                   <h3 className="mb-1.5 font-semibold text-gray-900">
                     {item.title}
                   </h3>
-                  <p className="text-sm text-gray-500 leading-relaxed">
+                  <p className="text-sm leading-relaxed text-gray-500">
                     {item.desc}
                   </p>
                 </div>
@@ -273,7 +277,7 @@ export default function LandingPage() {
       <section className="border-t border-gray-100 py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-14 text-center">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-gray-400">
+            <p className="mb-2 text-sm font-semibold tracking-widest text-gray-400 uppercase">
               How It Works
             </p>
             <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">
@@ -293,7 +297,7 @@ export default function LandingPage() {
                 <h3 className="mb-2 text-base font-semibold text-gray-900">
                   {step.title}
                 </h3>
-                <p className="text-sm text-gray-500 leading-relaxed">
+                <p className="text-sm leading-relaxed text-gray-500">
                   {step.desc}
                 </p>
               </div>
@@ -306,7 +310,7 @@ export default function LandingPage() {
       <section className="border-t border-gray-100 bg-gray-50 py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-14 text-center">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-gray-400">
+            <p className="mb-2 text-sm font-semibold tracking-widest text-gray-400 uppercase">
               Capabilities
             </p>
             <h2 className="text-3xl font-bold text-gray-900 md:text-4xl">
@@ -318,7 +322,7 @@ export default function LandingPage() {
             {capabilities.map((cap) => (
               <div
                 key={cap.title}
-                className="flex gap-5 rounded-lg border border-gray-200 bg-white p-7 transition-all duration-200 hover:border-gray-300 hover:shadow-sm cursor-default"
+                className="flex cursor-default gap-5 rounded-lg border border-gray-200 bg-white p-7 transition-all duration-200 hover:border-gray-300 hover:shadow-sm"
               >
                 <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-gray-900">
                   <cap.icon className="size-4 text-white" />
@@ -330,7 +334,7 @@ export default function LandingPage() {
                       {cap.tag}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-500 leading-relaxed">
+                  <p className="text-sm leading-relaxed text-gray-500">
                     {cap.desc}
                   </p>
                 </div>
@@ -345,13 +349,13 @@ export default function LandingPage() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid items-center gap-16 lg:grid-cols-2">
             <div>
-              <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-gray-400">
+              <p className="mb-2 text-sm font-semibold tracking-widest text-gray-400 uppercase">
                 Developer First
               </p>
               <h2 className="mb-5 text-3xl font-bold text-gray-900 md:text-4xl">
                 Built for developers
               </h2>
-              <p className="mb-8 text-gray-500 leading-relaxed">
+              <p className="mb-8 leading-relaxed text-gray-500">
                 Relivo gives you control without unnecessary complexity. No
                 vendor lock-in, no opinionated abstractions — just a powerful
                 orchestration layer that fits your stack.
@@ -370,7 +374,7 @@ export default function LandingPage() {
               <div className="mt-10">
                 <Link
                   href="/docs"
-                  className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors cursor-pointer"
+                  className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50"
                 >
                   <Code2 className="size-4 text-gray-400" />
                   Read the docs
@@ -383,8 +387,12 @@ export default function LandingPage() {
               <div className="flex flex-col items-center gap-3">
                 {/* User input */}
                 <div className="w-full rounded-lg border border-gray-200 bg-white px-5 py-3.5 text-center shadow-sm">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-0.5">User message</p>
-                  <p className="text-sm text-gray-700">&ldquo;Analyze and summarize the report&rdquo;</p>
+                  <p className="mb-0.5 text-xs font-semibold tracking-wider text-gray-400 uppercase">
+                    User message
+                  </p>
+                  <p className="text-sm text-gray-700">
+                    &ldquo;Analyze and summarize the report&rdquo;
+                  </p>
                 </div>
 
                 <div className="flex items-center gap-1 text-gray-300">
@@ -393,29 +401,35 @@ export default function LandingPage() {
 
                 {/* Planner */}
                 <div className="w-full rounded-lg border border-gray-900 bg-gray-900 px-5 py-3.5 text-center">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-0.5">Planner Agent</p>
+                  <p className="mb-0.5 text-xs font-semibold tracking-wider text-gray-400 uppercase">
+                    Planner Agent
+                  </p>
                   <p className="text-sm text-white">Breaks task into steps</p>
                 </div>
 
                 <div className="flex items-center gap-6">
                   <div className="flex flex-col items-center gap-0.5">
                     <div className="h-4 w-px bg-gray-200" />
-                    <ArrowRight className="size-3 text-gray-300 rotate-90" />
+                    <ArrowRight className="size-3 rotate-90 text-gray-300" />
                   </div>
                   <div className="flex flex-col items-center gap-0.5">
                     <div className="h-4 w-px bg-gray-200" />
-                    <ArrowRight className="size-3 text-gray-300 rotate-90" />
+                    <ArrowRight className="size-3 rotate-90 text-gray-300" />
                   </div>
                 </div>
 
                 {/* Sub-agents */}
                 <div className="grid w-full grid-cols-2 gap-3">
                   <div className="rounded-lg border border-gray-200 bg-white px-4 py-3 text-center shadow-sm">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-0.5">Researcher</p>
+                    <p className="mb-0.5 text-xs font-semibold tracking-wider text-gray-400 uppercase">
+                      Researcher
+                    </p>
                     <p className="text-xs text-gray-600">Fetches data</p>
                   </div>
                   <div className="rounded-lg border border-gray-200 bg-white px-4 py-3 text-center shadow-sm">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-0.5">Writer</p>
+                    <p className="mb-0.5 text-xs font-semibold tracking-wider text-gray-400 uppercase">
+                      Writer
+                    </p>
                     <p className="text-xs text-gray-600">Formats output</p>
                   </div>
                 </div>
@@ -426,7 +440,9 @@ export default function LandingPage() {
 
                 {/* Result */}
                 <div className="w-full rounded-lg border border-gray-200 bg-green-50 px-5 py-3.5 text-center">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-green-600 mb-0.5">Streamed result</p>
+                  <p className="mb-0.5 text-xs font-semibold tracking-wider text-green-600 uppercase">
+                    Streamed result
+                  </p>
                   <p className="text-sm text-gray-700">Delivered to your app</p>
                 </div>
               </div>
@@ -442,21 +458,21 @@ export default function LandingPage() {
           <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
             Start building today
           </h2>
-          <p className="mx-auto mb-10 text-gray-400 leading-relaxed">
+          <p className="mx-auto mb-10 leading-relaxed text-gray-400">
             Join developers building the next generation of multi-agent AI
             systems with Relivo.
           </p>
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               href="/signup"
-              className="inline-flex items-center gap-2 rounded-lg bg-white px-8 py-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-100 transition-colors duration-200 cursor-pointer"
+              className="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-white px-8 py-3.5 text-sm font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-100"
             >
               Create Account
               <ArrowRight className="size-4" />
             </Link>
             <Link
               href="/pricing"
-              className="text-sm font-medium text-gray-400 hover:text-white transition-colors cursor-pointer"
+              className="cursor-pointer text-sm font-medium text-gray-400 transition-colors hover:text-white"
             >
               View pricing →
             </Link>

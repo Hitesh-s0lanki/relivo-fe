@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ArrowUp, Mic, Paperclip, Plus } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 
 export function TaskInputArea() {
@@ -11,7 +12,7 @@ export function TaskInputArea() {
   return (
     <div className="flex w-full flex-col items-center gap-6">
       {/* Heading */}
-      <h1 className="text-center text-[2rem] font-medium text-zinc-900 dark:text-zinc-50 sm:text-[2rem]">
+      <h1 className="text-center text-[2rem] font-medium text-zinc-900 sm:text-[2rem] dark:text-zinc-50">
         What can I help with?
       </h1>
 
@@ -21,7 +22,7 @@ export function TaskInputArea() {
           "w-full max-w-2xl rounded-2xl border bg-white transition-colors dark:bg-zinc-900",
           focused
             ? "border-zinc-300 dark:border-zinc-600"
-            : "border-zinc-200 dark:border-zinc-800",
+            : "border-zinc-200 dark:border-zinc-800"
         )}
       >
         {/* Textarea */}
@@ -32,11 +33,11 @@ export function TaskInputArea() {
           onBlur={() => setFocused(false)}
           placeholder="Message Relivo..."
           rows={3}
-          className="w-full resize-none rounded-t-2xl bg-transparent px-4 pb-2 pt-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none dark:text-zinc-100 dark:placeholder:text-zinc-600"
+          className="w-full resize-none rounded-t-2xl bg-transparent px-4 pt-4 pb-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none dark:text-zinc-100 dark:placeholder:text-zinc-600"
         />
 
         {/* Toolbar */}
-        <div className="flex items-center justify-between px-3 pb-3 pt-1">
+        <div className="flex items-center justify-between px-3 pt-1 pb-3">
           <div className="flex items-center gap-0.5">
             <IconBtn label="Add">
               <Plus className="size-4" />
@@ -56,7 +57,7 @@ export function TaskInputArea() {
               "flex size-8 cursor-pointer items-center justify-center rounded-full transition-colors duration-150",
               value.trim()
                 ? "bg-zinc-900 text-white hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200"
-                : "cursor-not-allowed bg-zinc-100 text-zinc-400 dark:bg-zinc-800 dark:text-zinc-600",
+                : "cursor-not-allowed bg-zinc-100 text-zinc-400 dark:bg-zinc-800 dark:text-zinc-600"
             )}
             aria-label="Submit"
           >

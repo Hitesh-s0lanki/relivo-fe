@@ -1,17 +1,19 @@
 "use client";
 
-import { SidebarLogo } from "./SidebarLogo";
-import { SidebarNav } from "./SidebarNav";
-import { SidebarTasks } from "./SidebarTasks";
 import Image from "next/image";
-import { Plus, Workflow, BookOpen, Settings, Plug, Search } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { BookOpen, Plug, Plus, Search, Settings, Workflow } from "lucide-react";
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+
+import { SidebarLogo } from "./SidebarLogo";
+import { SidebarNav } from "./SidebarNav";
+import { SidebarTasks } from "./SidebarTasks";
 
 interface AppSidebarProps {
   collapsed: boolean;
@@ -48,7 +50,7 @@ export function AppSidebar({ collapsed, onCollapse }: AppSidebarProps) {
       <aside
         className={cn(
           "relative flex shrink-0 flex-col overflow-hidden border-r border-zinc-200 bg-white transition-all duration-300 ease-in-out dark:border-zinc-800 dark:bg-zinc-950",
-          collapsed ? "w-12" : "w-60",
+          collapsed ? "w-12" : "w-60"
         )}
       >
         {/* Collapsed view */}

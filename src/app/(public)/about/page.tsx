@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Target, Lightbulb, Rocket } from "lucide-react";
+import { ArrowRight, Lightbulb, Rocket, Target } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About — Relivo",
@@ -38,13 +38,13 @@ export default function AboutPage() {
       {/* Header */}
       <section className="border-b border-gray-100 px-6 py-24 md:py-32">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-gray-400">
+          <p className="mb-2 text-sm font-semibold tracking-widest text-gray-400 uppercase">
             About Relivo
           </p>
           <h1 className="mb-5 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
             The execution layer for intelligent systems
           </h1>
-          <p className="text-lg text-gray-500 leading-relaxed">
+          <p className="text-lg leading-relaxed text-gray-500">
             Relivo is an AI orchestration platform designed to help developers
             build structured, multi-agent systems that scale.
           </p>
@@ -56,13 +56,13 @@ export default function AboutPage() {
         <div className="mx-auto max-w-5xl px-6">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
             <div>
-              <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-gray-400">
+              <p className="mb-2 text-sm font-semibold tracking-widest text-gray-400 uppercase">
                 The Problem
               </p>
               <h2 className="mb-5 text-2xl font-bold text-gray-900">
                 One model doing everything doesn&apos;t scale.
               </h2>
-              <p className="mb-6 text-gray-500 leading-relaxed">
+              <p className="mb-6 leading-relaxed text-gray-500">
                 Most AI applications rely on a single model handling every task.
                 This breaks down fast — execution paths become unclear, systems
                 become brittle at scale, and you lose meaningful control over
@@ -82,13 +82,13 @@ export default function AboutPage() {
             </div>
 
             <div className="rounded-lg border border-gray-200 bg-gray-50 p-8">
-              <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-gray-400">
+              <p className="mb-2 text-sm font-semibold tracking-widest text-gray-400 uppercase">
                 Our Approach
               </p>
               <h3 className="mb-4 text-xl font-bold text-gray-900">
                 Multiple agents. One system.
               </h3>
-              <p className="text-gray-500 leading-relaxed">
+              <p className="leading-relaxed text-gray-500">
                 Instead of one model, Relivo lets you define multiple agents —
                 each with a clear role, each capable of handing off tasks, each
                 contributing to a coordinated system that&apos;s greater than
@@ -103,7 +103,7 @@ export default function AboutPage() {
       <section className="border-t border-gray-100 bg-gray-50 py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-14 text-center">
-            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-gray-400">
+            <p className="mb-2 text-sm font-semibold tracking-widest text-gray-400 uppercase">
               Differentiators
             </p>
             <h2 className="text-3xl font-bold text-gray-900">
@@ -122,7 +122,7 @@ export default function AboutPage() {
                 <h3 className="mb-2 font-semibold text-gray-900">
                   {item.title}
                 </h3>
-                <p className="text-sm text-gray-500 leading-relaxed">
+                <p className="text-sm leading-relaxed text-gray-500">
                   {item.desc}
                 </p>
               </div>
@@ -135,13 +135,14 @@ export default function AboutPage() {
       <section className="border-t border-gray-100 py-24">
         <div className="mx-auto max-w-4xl px-6">
           <div className="rounded-lg border border-gray-200 bg-gray-50 p-10 md:p-14">
-            <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-gray-400">
+            <p className="mb-3 text-sm font-semibold tracking-widest text-gray-400 uppercase">
               Our Vision
             </p>
-            <blockquote className="text-2xl font-semibold text-gray-900 leading-relaxed md:text-3xl">
-              &ldquo;To become the execution layer for intelligent systems.&rdquo;
+            <blockquote className="text-2xl leading-relaxed font-semibold text-gray-900 md:text-3xl">
+              &ldquo;To become the execution layer for intelligent
+              systems.&rdquo;
             </blockquote>
-            <p className="mt-6 text-gray-500 leading-relaxed">
+            <p className="mt-6 leading-relaxed text-gray-500">
               We believe the future of AI isn&apos;t a single superintelligent
               model — it&apos;s an ecosystem of specialized agents working
               together, each doing what it does best, orchestrated seamlessly
@@ -162,7 +163,7 @@ export default function AboutPage() {
           </p>
           <Link
             href="/signup"
-            className="inline-flex items-center gap-2 rounded-lg bg-white px-7 py-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-100 transition-colors cursor-pointer"
+            className="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-white px-7 py-3.5 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-100"
           >
             Start Building
             <ArrowRight className="size-4" />

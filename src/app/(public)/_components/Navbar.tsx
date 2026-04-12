@@ -1,10 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 import { Menu, X } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -19,12 +20,18 @@ export function Navbar() {
   const pathname = usePathname();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-gray-200 bg-white/90 backdrop-blur-md">
+    <header className="fixed top-0 right-0 left-0 z-50 border-b border-gray-200 bg-white/90 backdrop-blur-md">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 cursor-pointer">
-          <Image src="/logo.svg" alt="Relivo" width={28} height={28} className="shrink-0" />
-          <span className="font-mono text-base font-bold text-gray-900 tracking-tight">
+        <Link href="/" className="flex cursor-pointer items-center gap-2.5">
+          <Image
+            src="/logo.svg"
+            alt="Relivo"
+            width={28}
+            height={28}
+            className="shrink-0"
+          />
+          <span className="font-mono text-base font-bold tracking-tight text-gray-900">
             relivo
           </span>
         </Link>
@@ -36,7 +43,7 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               className={cn(
-                "text-sm font-medium transition-colors duration-200 cursor-pointer",
+                "cursor-pointer text-sm font-medium transition-colors duration-200",
                 pathname === link.href
                   ? "text-gray-900"
                   : "text-gray-500 hover:text-gray-900"
@@ -51,13 +58,13 @@ export function Navbar() {
         <div className="hidden items-center gap-3 md:flex">
           <Link
             href="/login"
-            className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors duration-200 cursor-pointer"
+            className="cursor-pointer text-sm font-medium text-gray-500 transition-colors duration-200 hover:text-gray-900"
           >
             Login
           </Link>
           <Link
             href="/signup"
-            className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
+            className="cursor-pointer rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-gray-700"
           >
             Get Started
           </Link>
@@ -66,7 +73,7 @@ export function Navbar() {
         {/* Mobile toggle */}
         <button
           onClick={() => setOpen(!open)}
-          className="text-gray-500 hover:text-gray-900 transition-colors cursor-pointer md:hidden"
+          className="cursor-pointer text-gray-500 transition-colors hover:text-gray-900 md:hidden"
           aria-label="Toggle menu"
         >
           {open ? <X size={20} /> : <Menu size={20} />}
@@ -82,7 +89,7 @@ export function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
+                className="cursor-pointer text-sm font-medium text-gray-600 transition-colors hover:text-gray-900"
               >
                 {link.label}
               </Link>
@@ -91,14 +98,14 @@ export function Navbar() {
               <Link
                 href="/login"
                 onClick={() => setOpen(false)}
-                className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors cursor-pointer"
+                className="cursor-pointer text-sm font-medium text-gray-500 transition-colors hover:text-gray-900"
               >
                 Login
               </Link>
               <Link
                 href="/signup"
                 onClick={() => setOpen(false)}
-                className="rounded-lg bg-gray-900 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-gray-700 transition-colors cursor-pointer"
+                className="cursor-pointer rounded-lg bg-gray-900 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-gray-700"
               >
                 Get Started
               </Link>

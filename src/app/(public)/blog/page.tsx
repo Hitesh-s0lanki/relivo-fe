@@ -11,7 +11,7 @@ export default function BlogPage() {
       {/* Header */}
       <section className="border-b border-gray-100 px-6 py-24 md:py-32">
         <div className="mx-auto max-w-7xl">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-gray-400">
+          <p className="mb-2 text-sm font-semibold tracking-widest text-gray-400 uppercase">
             Blog
           </p>
           <h1 className="mb-4 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
@@ -44,7 +44,7 @@ export default function BlogPage() {
           <h2 className="mb-2 text-lg font-semibold text-gray-900">
             Articles coming soon
           </h2>
-          <p className="mb-8 max-w-sm text-sm text-gray-500 leading-relaxed">
+          <p className="mb-8 max-w-sm text-sm leading-relaxed text-gray-500">
             We&apos;re writing about multi-agent architectures, orchestration
             patterns, and how to build production AI systems. Check back soon.
           </p>
@@ -54,11 +54,11 @@ export default function BlogPage() {
             <input
               type="email"
               placeholder="you@company.com"
-              className="flex-1 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-300 transition-colors"
+              className="flex-1 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 transition-colors outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-300"
             />
             <button
               type="button"
-              className="rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-gray-700 transition-colors cursor-pointer whitespace-nowrap"
+              className="cursor-pointer rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-semibold whitespace-nowrap text-white transition-colors hover:bg-gray-700"
             >
               Notify me
             </button>

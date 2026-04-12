@@ -1,0 +1,17 @@
+# Build output
+.next/
+out/
+build/
+
+# Dependencies
+node_modules/
+
+# Auto-generated
+next-env.d.ts
+*.tsbuildinfo
+
+# shadcn generated components (managed externally)
+src/components/ui/
+
+# Lock files
+package-lock.json

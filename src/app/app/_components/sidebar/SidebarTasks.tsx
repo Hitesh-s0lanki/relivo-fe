@@ -8,7 +8,7 @@ const CHATS = [
 export function SidebarTasks() {
   return (
     <div className="flex flex-1 flex-col overflow-y-auto px-2 pb-4">
-      <p className="px-2.5 pb-0.5 pt-3 text-[10px] font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-600">
+      <p className="px-2.5 pt-3 pb-0.5 text-[10px] font-semibold tracking-widest text-zinc-400 uppercase dark:text-zinc-600">
         All chats
       </p>
       {CHATS.map((chat) => (
