@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ArrowUp, Mic, Paperclip, Plus } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 
 export function TaskInputArea() {

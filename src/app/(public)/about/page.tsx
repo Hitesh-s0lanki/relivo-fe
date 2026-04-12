@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Target, Lightbulb, Rocket } from "lucide-react";
+import { ArrowRight, Lightbulb, Rocket,Target } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About — Relivo",

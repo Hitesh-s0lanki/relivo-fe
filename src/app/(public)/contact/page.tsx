@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Mail, Clock, ArrowRight, MessageSquare, Zap } from "lucide-react";
+import { ArrowRight, Clock, Mail, MessageSquare, Zap } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Contact — Relivo",

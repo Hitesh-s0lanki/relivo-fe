@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+
+import type { Metadata } from "next";
+import { JetBrains_Mono,Plus_Jakarta_Sans } from "next/font/google";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-sans",

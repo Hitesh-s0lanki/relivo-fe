@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  ArrowRight,
   BookOpen,
   Code2,
-  GitBranch,
-  Radio,
   Database,
-  ArrowRight,
-  Layers,
   ExternalLink,
+  GitBranch,
+  Layers,
+  Radio,
 } from "lucide-react";
 
 export const metadata: Metadata = {

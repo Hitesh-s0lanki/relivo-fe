@@ -1,17 +1,17 @@
 import Link from "next/link";
 import {
   ArrowRight,
+  Bot,
+  CheckCircle2,
+  Code2,
+  Database,
   GitBranch,
   Layers,
-  Radio,
-  Database,
-  Code2,
-  MessageSquare,
-  Bot,
   Megaphone,
+  MessageSquare,
+  Radio,
   Search,
   Workflow,
-  CheckCircle2,
   Zap,
 } from "lucide-react";
 

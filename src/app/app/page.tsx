@@ -1,5 +1,5 @@
-import { TaskInputArea } from "./_components/home/TaskInputArea";
 import { QuickActions } from "./_components/home/QuickActions";
+import { TaskInputArea } from "./_components/home/TaskInputArea";
 
 export default function AppHome() {
   return (

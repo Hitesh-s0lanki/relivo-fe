@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { AppSidebar } from "./_components/sidebar/AppSidebar";
+
 import { MainHeader } from "./_components/header/MainHeader";
+import { AppSidebar } from "./_components/sidebar/AppSidebar";
 
 export default function AppLayout({
   children,

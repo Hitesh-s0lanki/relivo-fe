@@ -1,17 +1,19 @@
 "use client";
 
-import { SidebarLogo } from "./SidebarLogo";
-import { SidebarNav } from "./SidebarNav";
-import { SidebarTasks } from "./SidebarTasks";
 import Image from "next/image";
-import { Plus, Workflow, BookOpen, Settings, Plug, Search } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { BookOpen, Plug, Plus, Search,Settings, Workflow } from "lucide-react";
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+
+import { SidebarLogo } from "./SidebarLogo";
+import { SidebarNav } from "./SidebarNav";
+import { SidebarTasks } from "./SidebarTasks";
 
 interface AppSidebarProps {
   collapsed: boolean;
