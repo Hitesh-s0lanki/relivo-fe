@@ -1,0 +1,30 @@
+import { BeServerClient } from "@/lib/API/api-client/be-server-client";
+import {
+  routeHandlerError,
+  routeHandlerSuccess,
+} from "@/lib/API/route-handler-response";
+import type { ConversationCreate } from "@/types/be-server";
+
+export const POST = async (request: Request) => {
+  let data: ConversationCreate;
+  try {
+    data = await request.json();
+  } catch {
+    return routeHandlerError("Invalid body for creating conversation", 400);
+  }
+
+  try {
+    const conversation = await BeServerClient.createConversation(data);
+    return routeHandlerSuccess(
+      "Conversation created successfully",
+      200,
+      conversation
+    );
+  } catch (error: unknown) {
+    const err = error as { message?: string; response?: { status?: number } };
+    return routeHandlerError(
+      err?.message ?? "Failed to create conversation",
+      err?.response?.status ?? 500
+    );
+  }
+};
