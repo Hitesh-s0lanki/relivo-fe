@@ -1,3 +1,6 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { Bell, ChevronDown, HelpCircle } from "lucide-react";
 
 import {
@@ -8,14 +11,26 @@ import {
 } from "@/components/ui/tooltip";
 
 export function MainHeader() {
+  const pathname = usePathname();
+  const segment = pathname.split("/")[2] ?? null;
+  const pageName = segment
+    ? segment.charAt(0).toUpperCase() + segment.slice(1)
+    : null;
+
   return (
     <TooltipProvider>
       <header className="flex shrink-0 items-center justify-between bg-white px-4 py-4 dark:border-zinc-800 dark:bg-zinc-950">
-        {/* Model selector */}
-        <button className="flex cursor-pointer items-center gap-1.5 rounded-md px-2 py-1 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800">
-          Relivo
-          <ChevronDown className="size-4" />
-        </button>
+        {/* Left: dropdown on /app, title on /app/{name} */}
+        {pageName === null ? (
+          <button className="flex cursor-pointer items-center gap-1.5 rounded-md px-2 py-1 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800">
+            Relivo
+            <ChevronDown className="size-4" />
+          </button>
+        ) : (
+          <span className="px-2 py-1 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+            {pageName}
+          </span>
+        )}
 
         {/* Right actions */}
         <div className="flex items-center gap-0.5">
