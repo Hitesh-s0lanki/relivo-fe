@@ -12,9 +12,12 @@ import {
 
 export function MainHeader() {
   const pathname = usePathname();
-  const segment = pathname.split("/")[2] ?? null;
+  const segment = pathname.split("/")[2] || null;
   const pageName = segment
-    ? segment.charAt(0).toUpperCase() + segment.slice(1)
+    ? segment
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ")
     : null;
 
   return (
