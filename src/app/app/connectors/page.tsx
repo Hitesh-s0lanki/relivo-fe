@@ -3,15 +3,14 @@
 import { useState } from "react";
 import { Search } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { ConnectorCard } from "../_components/ConnectorCard";
 import { CONNECTORS } from "../_data/connectors";
+import { ConnectorCard } from "./_components/ConnectorCard";
 
 export default function ConnectorsPage() {
   const [query, setQuery] = useState("");
-  const [showConnected, setShowConnected] = useState(false);
+  const [showConnected] = useState(false);
   const [connected, setConnected] = useState<Set<string>>(new Set());
 
   function toggleConnector(id: string) {
@@ -33,7 +32,7 @@ export default function ConnectorsPage() {
   });
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-6 py-8">
+    <div className="mx-auto w-full max-w-4xl px-6 py-8">
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
@@ -55,17 +54,10 @@ export default function ConnectorsPage() {
             className="pl-8 text-[13px]"
           />
         </div>
-        <Button
-          variant={showConnected ? "default" : "outline"}
-          size="sm"
-          onClick={() => setShowConnected((v) => !v)}
-        >
-          Connected
-        </Button>
       </div>
 
       {/* List */}
-      <div className="flex flex-col gap-2">
+      <div className="grid grid-cols-2 gap-2">
         {filtered.length === 0 ? (
           <p className="py-8 text-center text-[13px] text-zinc-400">
             No connectors found.

@@ -1,7 +1,8 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Bell, ChevronDown, HelpCircle } from "lucide-react";
+import { UserButton } from "@clerk/nextjs";
+import { Bell, ChevronDown } from "lucide-react";
 
 import {
   Tooltip,
@@ -25,9 +26,9 @@ export function MainHeader() {
       <header className="flex shrink-0 items-center justify-between bg-white px-4 py-4 dark:border-zinc-800 dark:bg-zinc-950">
         {/* Left: dropdown on /app, title on /app/{name} */}
         {pageName === null ? (
-          <button className="flex cursor-pointer items-center gap-1.5 rounded-md px-2 py-1 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800">
+          <button className="text-md flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-1 font-semibold text-zinc-900 transition-colors hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800">
             Relivo
-            <ChevronDown className="size-4" />
+            <ChevronDown className="size-4 text-zinc-500" />
           </button>
         ) : (
           <span className="px-2 py-1 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
@@ -36,32 +37,19 @@ export function MainHeader() {
         )}
 
         {/* Right actions */}
-        <div className="flex items-center gap-0.5">
+        <div className="flex items-center gap-2">
           <Tooltip>
             <TooltipTrigger asChild>
               <button
-                className="cursor-pointer rounded-md p-1.5 text-zinc-900 transition-colors hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800"
-                aria-label="Help"
-              >
-                <HelpCircle className="size-4" />
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>Help</TooltipContent>
-          </Tooltip>
-
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                className="relative cursor-pointer rounded-md p-1.5 text-zinc-900 transition-colors hover:bg-zinc-100 dark:text-zinc-100 dark:hover:bg-zinc-800"
+                className="relative flex size-9 cursor-pointer items-center justify-center rounded-full border border-zinc-200 text-zinc-900 transition-colors hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-800"
                 aria-label="Notifications"
               >
-                <Bell className="size-4" />
-                {/* Notification dot */}
-                <span className="absolute top-1.5 right-1.5 size-1.5 rounded-full bg-violet-500" />
+                <Bell className="size-4.5" />
               </button>
             </TooltipTrigger>
             <TooltipContent>Notifications</TooltipContent>
           </Tooltip>
+          <UserButton />
         </div>
       </header>
     </TooltipProvider>

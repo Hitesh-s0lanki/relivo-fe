@@ -4,6 +4,7 @@ import type {
   Conversation,
   ConversationCreate,
   ConversationList,
+  ConversationMessageCreate,
   ConversationMessagesRequest,
   ConversationMessagesResponse,
   ConversationUpdate,
@@ -27,15 +28,17 @@ export class RouteHandlerClient {
   }
 
   static async getAllConversations(body: GetAllConversationsRequest) {
+    void body;
     return routeHandlerAxiosInstance.post<
       RouteHandlerDataResponse<ConversationList>
-    >("/api/ai/conversation/get-all", body);
+    >("/api/ai/conversation/get-all", {});
   }
 
-  static async getConversation(conversationId: string, userId: string) {
+  static async getConversation(conversationId: string, userId?: string) {
+    void userId;
     return routeHandlerAxiosInstance.get<
       RouteHandlerDataResponse<Conversation>
-    >(`/api/ai/conversation/${conversationId}?userId=${userId}`);
+    >(`/api/ai/conversation/${conversationId}`);
   }
 
   static async updateConversation(
@@ -47,16 +50,26 @@ export class RouteHandlerClient {
     >(`/api/ai/conversation/${conversationId}`, body);
   }
 
-  static async deleteConversation(conversationId: string, userId: string) {
+  static async deleteConversation(conversationId: string, userId?: string) {
+    void userId;
     return routeHandlerAxiosInstance.delete<RouteHandlerStandardResponse>(
-      `/api/ai/conversation/${conversationId}?userId=${userId}`
+      `/api/ai/conversation/${conversationId}`
     );
   }
 
   static async getConversationMessages(body: ConversationMessagesRequest) {
-    return routeHandlerAxiosInstance.post<
+    return routeHandlerAxiosInstance.get<
       RouteHandlerDataResponse<ConversationMessagesResponse>
-    >(`/api/ai/conversation/${body.conversationId}/messages`, body);
+    >(`/api/ai/conversation/${body.conversationId}/messages`);
+  }
+
+  static async createConversationMessage(
+    conversationId: string,
+    body: ConversationMessageCreate
+  ) {
+    return routeHandlerAxiosInstance.post<
+      RouteHandlerDataResponse<ConversationMessageCreate>
+    >(`/api/ai/conversation/${conversationId}/messages`, body);
   }
 
   static async cancelConversationResponse(body: CancelMessageRequest) {

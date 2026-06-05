@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 
-import type { Connector } from "../_data/connectors";
+import type { Connector } from "../../_data/connectors";
 
 interface ConnectorCardProps {
   connector: Connector;

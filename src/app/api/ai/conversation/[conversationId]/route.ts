@@ -3,6 +3,7 @@ import {
   routeHandlerError,
   routeHandlerSuccess,
 } from "@/lib/API/route-handler-response";
+import { getConversationUserId } from "@/lib/conversation-user";
 import type { ConversationUpdate } from "@/types/be-server";
 
 export const GET = async (
@@ -11,11 +12,11 @@ export const GET = async (
 ) => {
   try {
     const { conversationId } = await params;
-    const userId = new URL(request.url).searchParams.get("userId");
+    void request;
+    const userId = await getConversationUserId();
 
     if (!conversationId)
       return routeHandlerError("Conversation ID is required", 400);
-    if (!userId) return routeHandlerError("User ID is required", 400);
 
     const conversation = await BeServerClient.getConversation(
       conversationId,
@@ -35,8 +36,7 @@ export const PUT = async (
   request: Request,
   { params }: { params: Promise<{ conversationId: string }> }
 ) => {
-  // params is available but conversationId comes from body (ConversationUpdate.id)
-  void params;
+  const { conversationId } = await params;
   let data: ConversationUpdate;
   try {
     data = await request.json();
@@ -45,7 +45,12 @@ export const PUT = async (
   }
 
   try {
-    const conversation = await BeServerClient.updateConversation(data);
+    const userId = await getConversationUserId();
+    const conversation = await BeServerClient.updateConversation({
+      ...data,
+      id: data.id || conversationId,
+      userId,
+    });
     return routeHandlerSuccess(
       "Conversation updated successfully",
       200,
@@ -66,11 +71,11 @@ export const DELETE = async (
 ) => {
   try {
     const { conversationId } = await params;
-    const userId = new URL(request.url).searchParams.get("userId");
+    void request;
+    const userId = await getConversationUserId();
 
     if (!conversationId)
       return routeHandlerError("Conversation ID is required", 400);
-    if (!userId) return routeHandlerError("User ID is required", 400);
 
     await BeServerClient.deleteConversation(conversationId, userId);
     return routeHandlerSuccess("Conversation deleted successfully", 200);

@@ -11,13 +11,13 @@ export interface Conversation {
   id: string;
   userId: string;
   title?: string;
-  status: ConversationStatus;
+  status?: ConversationStatus;
   createdAt: string;
   updatedAt: string;
 }
 
 export interface ConversationCreate {
-  userId: string;
+  userId?: string;
   title?: string;
   status?: ConversationStatus;
 }
@@ -39,7 +39,7 @@ export interface GetAllConversationsRequest {
 
 export interface ConversationMessagesRequest {
   conversationId: string;
-  userId: string;
+  userId?: string;
   limit?: number;
   offset?: number;
 }
@@ -74,6 +74,74 @@ export interface ConversationMessagesResponse {
   hasMore: boolean;
   nextOffset: number;
   count: number;
+}
+
+export interface ConversationMessageCreate {
+  role: "user" | "agent";
+  text?: string | null;
+  metadata?: Record<string, unknown> | null;
+  tool_calls?: ConversationToolCallCreate[];
+  reasoning_entries?: ConversationReasoningEntryCreate[];
+}
+
+export interface ConversationToolCallCreate {
+  tool_call_id?: string | null;
+  name: string;
+  arguments?: unknown;
+  result?: unknown;
+  status?: "pending" | "running" | "completed" | "failed";
+  sequence?: number;
+}
+
+export interface ConversationReasoningEntryCreate {
+  content: string;
+  summary?: string | null;
+  metadata?: Record<string, unknown> | null;
+  sequence?: number;
+}
+
+export interface ConversationApiRecord {
+  id: string;
+  user_id: string;
+  title: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ConversationMessageApiRecord {
+  id: string;
+  conversation_id: string;
+  role: "user" | "agent";
+  text: string | null;
+  metadata: Record<string, unknown> | null;
+  created_at: string;
+  updated_at: string;
+  tool_calls?: ConversationToolCallApiRecord[];
+  reasoning_entries?: ConversationReasoningEntryApiRecord[];
+}
+
+export interface ConversationToolCallApiRecord {
+  id: string;
+  message_id: string;
+  tool_call_id: string | null;
+  name: string;
+  arguments: unknown;
+  result: unknown;
+  status: "pending" | "running" | "completed" | "failed";
+  sequence: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ConversationReasoningEntryApiRecord {
+  id: string;
+  message_id: string;
+  content: string;
+  summary: string | null;
+  metadata: Record<string, unknown> | null;
+  sequence: number;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface AttachmentInput {

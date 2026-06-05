@@ -30,7 +30,7 @@ export default function ContactPage() {
     <div className="bg-white text-gray-900">
       {/* Header */}
       <section className="border-b border-gray-100 px-6 py-24 md:py-32">
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-4xl text-center">
           <p className="mb-2 text-sm font-semibold tracking-widest text-gray-400 uppercase">
             Contact
           </p>

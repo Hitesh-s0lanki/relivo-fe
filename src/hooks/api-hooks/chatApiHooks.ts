@@ -81,13 +81,14 @@ export const useCreateConversation = ({ userId }: { userId: string }) => {
       return response.data?.data;
     },
     onSuccess: (newConversation) => {
+      if (!newConversation) return;
+
       qc.setQueryData(
         ["conversations", userId],
         (oldData: ConversationList | undefined) => {
-          if (!oldData)
-            return { conversations: newConversation ? [newConversation] : [] };
+          if (!oldData) return { conversations: [newConversation] };
           return {
-            conversations: [newConversation!, ...(oldData.conversations ?? [])],
+            conversations: [newConversation, ...(oldData.conversations ?? [])],
           };
         }
       );
