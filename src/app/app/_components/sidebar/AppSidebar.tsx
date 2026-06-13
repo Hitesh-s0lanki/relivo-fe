@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
-import { BookOpen, Plug, Plus, Search, Settings, Workflow } from "lucide-react";
+import { BookOpen, Plug, Plus, Settings, Workflow } from "lucide-react";
 
 import {
   Tooltip,
@@ -12,8 +14,8 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
+import { SettingsDialog } from "../settings/SettingsDialog";
 import { SidebarLogo } from "./SidebarLogo";
-import { SidebarNav } from "./SidebarNav";
 import { SidebarTasks } from "./SidebarTasks";
 
 interface AppSidebarProps {
@@ -23,35 +25,50 @@ interface AppSidebarProps {
 
 const FOOTER_ITEMS = [
   {
-    icon: Search,
-    label: "Search",
-    description: "Search across your tasks & agents",
+    icon: Workflow,
+    label: "Orchestrator",
+    description: "Build and manage agent workflows",
+    href: null,
+  },
+  {
+    icon: BookOpen,
+    label: "Library",
+    description: "Browse saved resources and templates",
+    href: null,
   },
   {
     icon: Plug,
     label: "Connectors",
     description: "Connect your tools & integrations",
+    href: null,
+    settingsTab: "connectors",
   },
   {
     icon: Settings,
     label: "Settings",
     description: "Manage your account & preferences",
+    href: null,
+    settingsTab: "general",
   },
 ];
 
-const COLLAPSED_NAV = [
-  { icon: Plus, label: "New Chat" },
-  { icon: Workflow, label: "Orchestrator" },
-  { icon: BookOpen, label: "Library" },
-];
+const COLLAPSED_NAV = [{ icon: Plus, label: "New Chat", href: "/" }];
 
 export function AppSidebar({ collapsed, onCollapse }: AppSidebarProps) {
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [settingsTab, setSettingsTab] = useState("general");
+
+  function openSettings(tab: string) {
+    setSettingsTab(tab);
+    setSettingsOpen(true);
+  }
+
   return (
     <TooltipProvider>
       <aside
         className={cn(
           "relative flex shrink-0 flex-col overflow-hidden border-r border-zinc-200 bg-white transition-all duration-300 ease-in-out dark:border-zinc-800 dark:bg-zinc-950",
-          collapsed ? "w-12" : "w-60"
+          collapsed ? "w-12" : "w-72"
         )}
       >
         {/* Collapsed view */}
@@ -68,15 +85,26 @@ export function AppSidebar({ collapsed, onCollapse }: AppSidebarProps) {
 
             {/* Nav icons */}
             <div className="mt-3 flex flex-col items-center gap-0.5">
-              {COLLAPSED_NAV.map(({ icon: Icon, label }) => (
+              {COLLAPSED_NAV.map(({ icon: Icon, label, href }) => (
                 <Tooltip key={label}>
                   <TooltipTrigger asChild>
-                    <button
-                      className="cursor-pointer rounded-md p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
-                      aria-label={label}
-                    >
-                      <Icon className="size-4.5" />
-                    </button>
+                    {href ? (
+                      <Link
+                        href={href}
+                        className="cursor-pointer rounded-md p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                        aria-label={label}
+                      >
+                        <Icon className="size-4.5" />
+                      </Link>
+                    ) : (
+                      <button
+                        type="button"
+                        className="cursor-pointer rounded-md p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                        aria-label={label}
+                      >
+                        <Icon className="size-4.5" />
+                      </button>
+                    )}
                   </TooltipTrigger>
                   <TooltipContent side="right">{label}</TooltipContent>
                 </Tooltip>
@@ -85,22 +113,38 @@ export function AppSidebar({ collapsed, onCollapse }: AppSidebarProps) {
 
             {/* Footer icons */}
             <div className="mt-auto flex flex-col items-center gap-0.5 border-t border-zinc-200 pt-2 dark:border-zinc-800">
-              {FOOTER_ITEMS.map(({ icon: Icon, label }) => (
+              {FOOTER_ITEMS.map(({ icon: Icon, label, href, settingsTab }) => (
                 <Tooltip key={label}>
                   <TooltipTrigger asChild>
-                    <button
-                      className="cursor-pointer rounded-md p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
-                      aria-label={label}
-                    >
-                      <Icon className="size-4.5" />
-                    </button>
+                    {href ? (
+                      <Link
+                        href={href}
+                        className="cursor-pointer rounded-md p-2 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                        aria-label={label}
+                      >
+                        <Icon className="size-5" />
+                      </Link>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={
+                          settingsTab
+                            ? () => openSettings(settingsTab)
+                            : undefined
+                        }
+                        className="cursor-pointer rounded-md p-2 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                        aria-label={label}
+                      >
+                        <Icon className="size-5" />
+                      </button>
+                    )}
                   </TooltipTrigger>
                   <TooltipContent side="right">{label}</TooltipContent>
                 </Tooltip>
               ))}
 
               {/* User avatar */}
-              <div className="mt-1 flex size-7 cursor-pointer items-center justify-center rounded-full bg-violet-100 text-xs font-semibold text-violet-700 transition-colors hover:bg-violet-200 dark:bg-violet-900/40 dark:text-violet-300">
+              <div className="mt-1 flex size-[1.875rem] cursor-pointer items-center justify-center rounded-full bg-primary/10 text-[13px] font-semibold text-primary transition-colors hover:bg-primary/15 dark:bg-primary/15 dark:text-primary">
                 H
               </div>
             </div>
@@ -112,7 +156,6 @@ export function AppSidebar({ collapsed, onCollapse }: AppSidebarProps) {
           <div className="flex h-full flex-col">
             <SidebarLogo onCollapse={onCollapse} />
 
-            <SidebarNav />
             <SidebarTasks />
 
             {/* Footer */}
@@ -120,19 +163,37 @@ export function AppSidebar({ collapsed, onCollapse }: AppSidebarProps) {
               <div className="flex items-center justify-between">
                 {/* Utility icons */}
                 <div className="flex items-center gap-0.5">
-                  {FOOTER_ITEMS.map(({ icon: Icon, label }) => (
-                    <Tooltip key={label}>
-                      <TooltipTrigger asChild>
-                        <button
-                          className="cursor-pointer rounded-md p-1.5 transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
-                          aria-label={label}
-                        >
-                          <Icon className="size-4" />
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent side="top">{label}</TooltipContent>
-                    </Tooltip>
-                  ))}
+                  {FOOTER_ITEMS.map(
+                    ({ icon: Icon, label, href, settingsTab }) => (
+                      <Tooltip key={label}>
+                        <TooltipTrigger asChild>
+                          {href ? (
+                            <Link
+                              href={href}
+                              className="cursor-pointer rounded-md p-2 transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                              aria-label={label}
+                            >
+                              <Icon className="size-4.5" />
+                            </Link>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={
+                                settingsTab
+                                  ? () => openSettings(settingsTab)
+                                  : undefined
+                              }
+                              className="cursor-pointer rounded-md p-2 transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                              aria-label={label}
+                            >
+                              <Icon className="size-4.5" />
+                            </button>
+                          )}
+                        </TooltipTrigger>
+                        <TooltipContent side="top">{label}</TooltipContent>
+                      </Tooltip>
+                    )
+                  )}
                 </div>
 
                 {/* User avatar */}
@@ -142,6 +203,12 @@ export function AppSidebar({ collapsed, onCollapse }: AppSidebarProps) {
           </div>
         )}
       </aside>
+      <SettingsDialog
+        open={settingsOpen}
+        activeTab={settingsTab}
+        onOpenChange={setSettingsOpen}
+        onActiveTabChange={setSettingsTab}
+      />
     </TooltipProvider>
   );
 }

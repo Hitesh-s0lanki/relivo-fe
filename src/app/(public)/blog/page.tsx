@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blog — Relivo",
-  description: "Insights on building AI systems and multi-agent architectures.",
+  title: "Blog",
+  description:
+    "Insights on building, deploying, and operating AI agent workflows.",
 };
 
 export default function BlogPage() {
@@ -19,7 +20,7 @@ export default function BlogPage() {
           </h1>
           <p className="max-w-xl text-lg text-gray-500">
             Best practices, deep dives, and product updates for developers
-            building multi-agent AI.
+            building production AI agent workflows.
           </p>
         </div>
       </section>
@@ -45,8 +46,9 @@ export default function BlogPage() {
             Articles coming soon
           </h2>
           <p className="mb-8 max-w-sm text-sm leading-relaxed text-gray-500">
-            We&apos;re writing about multi-agent architectures, orchestration
-            patterns, and how to build production AI systems. Check back soon.
+            We&apos;re writing about agent orchestration, workflow deployment,
+            MCP integrations, and how to operate production AI systems. Check
+            back soon.
           </p>
 
           {/* Newsletter */}

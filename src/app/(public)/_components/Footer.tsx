@@ -40,8 +40,8 @@ export function Footer() {
               </span>
             </Link>
             <p className="max-w-xs text-sm leading-relaxed text-gray-500">
-              Intelligent agent orchestration for building and scaling
-              multi-agent AI systems.
+              Agent orchestration for building, running, and embedding
+              production-ready AI workflows.
             </p>
             <div className="mt-6 flex items-center gap-2">
               <a

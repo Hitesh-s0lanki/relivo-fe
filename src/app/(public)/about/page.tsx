@@ -3,9 +3,9 @@ import Link from "next/link";
 import { ArrowRight, Lightbulb, Rocket, Target } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About — Relivo",
+  title: "About",
   description:
-    "Relivo is an AI orchestration platform for building structured, multi-agent systems.",
+    "Relivo is an agent orchestration platform for building, running, and embedding production-ready AI workflows.",
 };
 
 const problems = [
@@ -22,8 +22,8 @@ const differentiators = [
   },
   {
     icon: Lightbulb,
-    title: "Multi-agent by design",
-    desc: "Relivo was built from the ground up for agent collaboration — it's not an afterthought.",
+    title: "Workflow-first by design",
+    desc: "Relivo is built around deployed workflows, not isolated prompts or one-off bots.",
   },
   {
     icon: Rocket,
@@ -37,7 +37,7 @@ export default function AboutPage() {
     <div className="bg-white text-gray-900">
       {/* Header */}
       <section className="border-b border-gray-100 px-6 py-24 md:py-32">
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-4xl text-center">
           <p className="mb-2 text-sm font-semibold tracking-widest text-gray-400 uppercase">
             About Relivo
           </p>
@@ -45,8 +45,8 @@ export default function AboutPage() {
             The execution layer for intelligent systems
           </h1>
           <p className="text-lg leading-relaxed text-gray-500">
-            Relivo is an AI orchestration platform designed to help developers
-            build structured, multi-agent systems that scale.
+            Relivo is an agent orchestration platform designed to help teams
+            build, deploy, and operate AI workflows that scale.
           </p>
         </div>
       </section>
@@ -89,10 +89,9 @@ export default function AboutPage() {
                 Multiple agents. One system.
               </h3>
               <p className="leading-relaxed text-gray-500">
-                Instead of one model, Relivo lets you define multiple agents —
-                each with a clear role, each capable of handing off tasks, each
-                contributing to a coordinated system that&apos;s greater than
-                the sum of its parts.
+                Instead of isolated prompts, Relivo lets you compose agents,
+                skills, tools, MCP servers, and conditions into deployable
+                workflows that can power chat, APIs, and embedded UI.
               </p>
             </div>
           </div>
@@ -159,7 +158,7 @@ export default function AboutPage() {
             Ready to start building?
           </h2>
           <p className="mb-8 text-gray-400">
-            Join developers building multi-agent AI systems with Relivo.
+            Join teams building production-ready agent workflows with Relivo.
           </p>
           <Link
             href="/signup"

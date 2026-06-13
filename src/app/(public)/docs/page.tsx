@@ -3,252 +3,288 @@ import Link from "next/link";
 import {
   ArrowRight,
   BookOpen,
+  Boxes,
   Code2,
-  Database,
-  ExternalLink,
   GitBranch,
+  KeyRound,
   Layers,
+  Plug,
   Radio,
+  Workflow,
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Documentation — Relivo",
-  description: "Learn how to build your first multi-agent system with Relivo.",
+  title: "Documentation",
+  description:
+    "Learn the Relivo product model: workspaces, agents, workflows, MCP servers, deployments, runs, and streaming APIs.",
 };
 
-const gettingStarted = [
-  { step: "1", title: "Create your account", href: "/signup" },
-  { step: "2", title: "Define your first agent", href: "#agents" },
-  { step: "3", title: "Send your first request", href: "#api" },
+const quickStart = [
+  {
+    step: "1",
+    title: "Create a workspace",
+    description: "Start with a team environment for agents and workflows.",
+  },
+  {
+    step: "2",
+    title: "Define agents and skills",
+    description: "Attach instructions, tools, reusable skills, and models.",
+  },
+  {
+    step: "3",
+    title: "Build a workflow",
+    description: "Route requests through agents, tools, and conditions.",
+  },
+  {
+    step: "4",
+    title: "Publish a deployment",
+    description: "Use the workflow from chat, API, SDKs, or embedded UI.",
+  },
 ];
 
 const concepts = [
   {
+    icon: Boxes,
+    id: "workspaces",
+    title: "Workspaces",
+    description:
+      "A workspace owns members, agents, workflows, skills, MCP servers, API keys, conversations, logs, usage, and environments.",
+  },
+  {
     icon: Layers,
     id: "agents",
     title: "Agents",
-    desc: "Independent units that perform specific tasks. Each agent has a defined role, capabilities, and a set of other agents it can hand off to.",
-    code: `const planner = relivo.agent("planner", {\n  role: "Break down complex tasks",\n  handoff: ["executor"],\n});`,
+    description:
+      "Agents are execution units with model settings, instructions, tools, skills, memory, guardrails, and output configuration.",
+  },
+  {
+    icon: Workflow,
+    id: "workflows",
+    title: "Workflows",
+    description:
+      "Workflows coordinate agents, tools, skills, conditions, shared state, retries, approvals, and final responses.",
+  },
+  {
+    icon: Plug,
+    id: "mcp",
+    title: "MCP servers",
+    description:
+      "MCP servers connect Relivo agents to external tools, APIs, data systems, and business workflows.",
   },
   {
     icon: GitBranch,
-    id: "orchestration",
-    title: "Orchestration",
-    desc: "The process of coordinating multiple agents in a workflow. Relivo handles routing, state, and execution flow automatically.",
-    code: `const stream = await relivo.run({\n  agents: [planner, executor],\n  message: "Analyze this document",\n});`,
-  },
-  {
-    icon: ArrowRight,
-    id: "handoffs",
-    title: "Handoffs",
-    desc: "Agents can delegate work to other agents based on context. Handoffs are explicit, traceable, and configurable.",
-    code: `agent.on("handoff", (target, context) => {\n  console.log(\`→ \${target}\`);\n});`,
+    id: "deployments",
+    title: "Deployments",
+    description:
+      "A deployment is a published workflow version that can power Relivo Chat, APIs, SDKs, webhooks, or internal apps.",
   },
   {
     icon: Radio,
-    id: "streaming",
-    title: "Streaming",
-    desc: "Real-time response delivery from your agent system. Stream chunks directly to your application as they are generated.",
-    code: `for await (const chunk of stream) {\n  process.stdout.write(chunk.content);\n}`,
+    id: "runs",
+    title: "Runs",
+    description:
+      "A run records one workflow execution with input, output, model calls, tool calls, timing, errors, stream events, and trace data.",
   },
 ];
 
-const apiDocs = {
-  endpoint: "POST /v1/run",
-  description:
-    "Send a message to your agent system and receive a streamed or complete response.",
-  request: `{\n  "conversation_id": "conv_abc123",\n  "message": "Summarize the reports",\n  "stream": true\n}`,
-  response: `{ "type": "chunk", "content": "The reports..." }\n{ "type": "handoff", "from": "planner", "to": "executor" }\n{ "type": "done", "conversation_id": "conv_abc123" }`,
+const apiExample = {
+  endpoint: "POST /v1/workflows/{workflow_id}/runs",
+  request: `{
+  "input": {
+    "message": "Analyze our sales performance"
+  },
+  "conversation_id": "optional-conversation-id",
+  "metadata": {
+    "source": "customer-dashboard"
+  },
+  "stream": true
+}`,
+  events: `event: run.started
+data: {"run_id":"run_123"}
+
+event: agent.started
+data: {"agent_id":"research_agent"}
+
+event: agent.message.delta
+data: {"delta":"Based on the available data..."}
+
+event: run.completed
+data: {"run_id":"run_123","status":"completed"}`,
 };
 
-const examples = [
-  {
-    title: "Multi-agent chat system",
-    desc: "Build a chat app where agents collaborate to answer complex questions.",
-    href: "#",
-  },
-  {
-    title: "Research assistant",
-    desc: "Chain a search agent, summarizer, and formatter for automated research.",
-    href: "#",
-  },
-  {
-    title: "Marketing automation",
-    desc: "Orchestrate content generation, review, and distribution workflows.",
-    href: "#",
-  },
+const mvpPriorities = [
+  "Workspace and authentication",
+  "Agent creation and model configuration",
+  "Custom skills and URL-based MCP integration",
+  "Workflow orchestration with visible execution events",
+  "Real-time streaming through chat and API",
+  "Deployment, API keys, usage tracking, and basic logs",
 ];
 
 export default function DocsPage() {
   return (
     <div className="bg-white text-gray-900">
-      {/* Header */}
-      <section className="border-b border-gray-100 px-6 py-24">
-        <div className="mx-auto max-w-4xl">
+      <section className="border-b border-gray-100 px-6 py-20 md:py-28">
+        <div className="mx-auto max-w-5xl">
           <p className="mb-2 text-sm font-semibold tracking-widest text-gray-400 uppercase">
             Documentation
           </p>
-          <h1 className="mb-5 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
-            Build your first agent system
+          <h1 className="max-w-3xl text-4xl font-bold tracking-tight text-gray-900 md:text-5xl">
+            Build an agent workflow once. Use it everywhere.
           </h1>
-          <p className="max-w-2xl text-lg text-gray-500">
-            Everything you need to start building multi-agent AI systems with
-            Relivo.
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-gray-500">
+            Relivo helps teams build, run, deploy, and embed production-ready AI
+            agent workflows with streaming, MCP connectivity, skills,
+            observability, and chat UI.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            {gettingStarted.map((item) => (
-              <Link
-                key={item.step}
-                href={item.href}
-                className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 transition-colors hover:border-gray-300 hover:bg-white"
-              >
-                <span className="flex size-6 items-center justify-center rounded-full bg-gray-900 font-mono text-xs font-bold text-white">
-                  {item.step}
-                </span>
-                {item.title}
-                <ArrowRight className="ml-auto size-4 text-gray-400" />
-              </Link>
-            ))}
+            <Link
+              href="/signup"
+              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-gray-900 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-700"
+            >
+              Start building
+              <ArrowRight className="size-4" />
+            </Link>
+            <Link
+              href="#api"
+              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50"
+            >
+              View API model
+              <Code2 className="size-4" />
+            </Link>
           </div>
         </div>
       </section>
 
-      <div className="mx-auto max-w-4xl px-6 py-16">
-        {/* Core Concepts */}
-        <section className="mb-20">
-          <div className="mb-8 flex items-center gap-3">
+      <main className="mx-auto max-w-5xl px-6 py-16">
+        <section className="mb-16">
+          <div className="mb-7 flex items-center gap-3">
             <BookOpen className="size-5 text-gray-700" />
-            <h2 className="text-2xl font-bold text-gray-900">Core Concepts</h2>
+            <h2 className="text-2xl font-bold text-gray-900">Quick start</h2>
           </div>
-
-          <div className="space-y-6">
-            {concepts.map((concept) => (
+          <div className="grid gap-3 md:grid-cols-4">
+            {quickStart.map((item) => (
               <div
-                key={concept.id}
-                id={concept.id}
-                className="overflow-hidden rounded-lg border border-gray-200"
+                key={item.step}
+                className="rounded-lg border border-gray-200 bg-gray-50 p-4"
               >
-                <div className="flex items-start gap-4 p-6 pb-0">
-                  <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-gray-900">
-                    <concept.icon className="size-4 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="mb-1.5 text-base font-semibold text-gray-900">
-                      {concept.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-gray-500">
-                      {concept.desc}
-                    </p>
-                  </div>
-                </div>
-                <div className="m-6 rounded-lg border border-gray-100 bg-gray-50 p-4">
-                  <pre className="overflow-x-auto font-mono text-sm leading-relaxed text-gray-700">
-                    {concept.code}
-                  </pre>
-                </div>
+                <span className="flex size-7 items-center justify-center rounded-full bg-gray-900 font-mono text-xs font-bold text-white">
+                  {item.step}
+                </span>
+                <h3 className="mt-4 text-sm font-semibold text-gray-900">
+                  {item.title}
+                </h3>
+                <p className="mt-1 text-xs leading-relaxed text-gray-500">
+                  {item.description}
+                </p>
               </div>
             ))}
           </div>
         </section>
 
-        {/* API Overview */}
-        <section id="api" className="mb-20">
-          <div className="mb-8 flex items-center gap-3">
-            <Code2 className="size-5 text-gray-700" />
-            <h2 className="text-2xl font-bold text-gray-900">API Overview</h2>
+        <section className="mb-16">
+          <div className="mb-7 flex items-center gap-3">
+            <Layers className="size-5 text-gray-700" />
+            <h2 className="text-2xl font-bold text-gray-900">Core concepts</h2>
           </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {concepts.map((concept) => (
+              <article
+                key={concept.id}
+                id={concept.id}
+                className="rounded-lg border border-gray-200 bg-white p-5"
+              >
+                <div className="mb-4 flex size-9 items-center justify-center rounded-lg bg-gray-900">
+                  <concept.icon className="size-4 text-white" />
+                </div>
+                <h3 className="text-base font-semibold text-gray-900">
+                  {concept.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-gray-500">
+                  {concept.description}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
 
+        <section id="api" className="mb-16">
+          <div className="mb-7 flex items-center gap-3">
+            <Code2 className="size-5 text-gray-700" />
+            <h2 className="text-2xl font-bold text-gray-900">
+              Workflow run API
+            </h2>
+          </div>
           <div className="overflow-hidden rounded-lg border border-gray-200">
-            <div className="border-b border-gray-100 bg-gray-50 px-6 py-4">
-              <div className="flex items-center gap-3">
+            <div className="border-b border-gray-100 bg-gray-50 px-5 py-4">
+              <div className="flex flex-wrap items-center gap-3">
                 <span className="rounded-md border border-gray-200 bg-gray-900 px-2.5 py-1 font-mono text-xs font-semibold text-white">
                   POST
                 </span>
                 <code className="font-mono text-sm text-gray-700">
-                  {apiDocs.endpoint}
+                  {apiExample.endpoint}
                 </code>
               </div>
-              <p className="mt-2 text-sm text-gray-500">
-                {apiDocs.description}
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-gray-500">
+                Published workflows should support streaming and non-streaming
+                runs, API key authentication, idempotency, cancellation,
+                structured errors, usage tracking, and conversation continuity.
               </p>
             </div>
-
             <div className="grid lg:grid-cols-2">
-              <div className="border-b border-gray-100 p-6 lg:border-r lg:border-b-0">
-                <p className="mb-3 font-mono text-xs font-semibold tracking-wider text-gray-400 uppercase">
-                  Request
-                </p>
-                <pre className="overflow-x-auto font-mono text-sm leading-relaxed text-gray-700">
-                  {apiDocs.request}
-                </pre>
-              </div>
-              <div className="p-6">
-                <p className="mb-3 font-mono text-xs font-semibold tracking-wider text-gray-400 uppercase">
-                  Response (stream)
-                </p>
-                <pre className="overflow-x-auto font-mono text-sm leading-relaxed text-gray-700">
-                  {apiDocs.response}
-                </pre>
-              </div>
+              <CodeBlock title="Request" code={apiExample.request} />
+              <CodeBlock title="SSE events" code={apiExample.events} />
             </div>
           </div>
         </section>
 
-        {/* SDKs */}
-        <section className="mb-20">
-          <div className="mb-6 flex items-center gap-3">
-            <Database className="size-5 text-gray-700" />
-            <h2 className="text-2xl font-bold text-gray-900">SDKs</h2>
+        <section className="mb-16">
+          <div className="mb-7 flex items-center gap-3">
+            <KeyRound className="size-5 text-gray-700" />
+            <h2 className="text-2xl font-bold text-gray-900">MVP priorities</h2>
           </div>
-          <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-8 text-center">
-            <p className="text-gray-500">
-              Official SDKs coming soon — REST API is available now.
-            </p>
-            <p className="mt-2 font-mono text-sm text-gray-400">
-              npm install @relivo/sdk &nbsp;·&nbsp; pip install relivo
-            </p>
-          </div>
-        </section>
-
-        {/* Examples */}
-        <section className="mb-20">
-          <h2 className="mb-7 text-2xl font-bold text-gray-900">Examples</h2>
-          <div className="grid gap-4 sm:grid-cols-3">
-            {examples.map((ex) => (
-              <Link
-                key={ex.title}
-                href={ex.href}
-                className="group cursor-pointer rounded-lg border border-gray-200 bg-gray-50 p-6 transition-all duration-200 hover:border-gray-300 hover:bg-white"
-              >
-                <div className="mb-2 flex items-start justify-between gap-2">
-                  <h3 className="text-sm font-semibold text-gray-900">
-                    {ex.title}
-                  </h3>
-                  <ExternalLink className="size-3.5 shrink-0 text-gray-400" />
-                </div>
-                <p className="text-xs leading-relaxed text-gray-500">
-                  {ex.desc}
-                </p>
-              </Link>
-            ))}
+          <div className="rounded-lg border border-gray-200 bg-gray-50 p-5">
+            <ul className="grid gap-3 md:grid-cols-2">
+              {mvpPriorities.map((priority) => (
+                <li
+                  key={priority}
+                  className="flex items-start gap-3 text-sm text-gray-600"
+                >
+                  <span className="mt-2 size-1.5 shrink-0 rounded-full bg-gray-900" />
+                  {priority}
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 
-        {/* Need Help */}
-        <div className="rounded-lg border border-gray-200 bg-gray-50 p-8 text-center">
-          <h3 className="mb-2 font-semibold text-gray-900">Need help?</h3>
-          <p className="mb-6 text-sm text-gray-500">
-            Can&apos;t find what you&apos;re looking for? Reach out to our team.
+        <section className="rounded-lg border border-gray-200 bg-gray-900 p-8 text-white">
+          <h2 className="text-2xl font-bold">Developer distribution</h2>
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-gray-300">
+            Relivo will expose workflows through production APIs, a JavaScript
+            SDK, a React chat package, headless hooks, temporary client tokens,
+            and embeddable chat surfaces.
           </p>
-          <Link
-            href="/contact"
-            className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50"
-          >
-            Contact Support
-            <ArrowRight className="size-4" />
-          </Link>
-        </div>
-      </div>
+          <div className="mt-6 rounded-lg border border-white/10 bg-white/5 p-4">
+            <pre className="overflow-x-auto font-mono text-sm leading-relaxed text-gray-100">
+              npm install @relivo/chat
+            </pre>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+function CodeBlock({ title, code }: { title: string; code: string }) {
+  return (
+    <div className="border-b border-gray-100 p-5 last:border-b-0 lg:border-r lg:border-b-0 lg:last:border-r-0">
+      <p className="mb-3 font-mono text-xs font-semibold tracking-wider text-gray-400 uppercase">
+        {title}
+      </p>
+      <pre className="overflow-x-auto font-mono text-sm leading-relaxed text-gray-700">
+        {code}
+      </pre>
     </div>
   );
 }

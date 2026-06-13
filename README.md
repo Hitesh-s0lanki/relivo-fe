@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Relivo
+
+Relivo is an agent orchestration platform for building, running, and embedding AI agent workflows.
+
+Build an agent workflow once, then use it through Relivo Chat, a streaming API, SDKs, embeddable UI components, or existing business applications.
+
+![Relivo home screen](./images/home.png)
+
+## Product Direction
+
+Relivo helps teams avoid rebuilding the same agent infrastructure from scratch: orchestration, streaming, tool execution, MCP connectivity, state, usage tracking, logs, and chat UI.
+
+Core product areas:
+
+- Workspaces for teams, members, environments, credentials, logs, and usage.
+- Agents with model configuration, instructions, skills, tools, memory, and guardrails.
+- Workflows that coordinate agents, skills, tools, conditions, retries, and final responses.
+- MCP server connections for external tools, APIs, and business systems.
+- Deployments that expose published workflow versions through chat, API, SDKs, and embedded UI.
+- Run observability for workflow path, model calls, tool calls, latency, token usage, errors, and streamed events.
+
+## Repository
+
+This repository contains the Relivo frontend server built with Next.js, TypeScript, React, Tailwind CSS, Clerk, and TanStack Query.
+
+The current frontend includes:
+
+- Public website pages for product, pricing, contact, blog, and docs.
+- Authenticated app shell with chat, conversation history, settings dialog, and connectors.
+- Streaming chat integration through a same-origin proxy to the Relivo backend.
+- Documentation for current chat streaming behavior and product requirements.
+
+## Documentation
+
+- [Documentation index](./docs/README.md)
+- [Product requirements](./docs/product-requirements.md)
+- [Current chat streaming API](./docs/api-chat.md)
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the frontend:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The configured development server runs on:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```txt
+http://localhost:3001
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Configure the Relivo backend URL:
 
-## Learn More
+```env
+RELIVO_API_URL=http://localhost:8000
+NEXT_PUBLIC_RELIVO_API_URL=http://localhost:8000
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run dev          # Start Next.js on port 3001
+npm run build        # Build for production
+npm run lint         # Run ESLint
+npm run typecheck    # Run TypeScript checks
+npm run format       # Format the repository
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## MVP Focus
 
-## Deploy on Vercel
+The MVP focuses on one complete flow:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```txt
+Create workflow -> Test workflow -> Publish workflow -> Chat/API usage
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Near-term product priorities:
+
+1. Workspace and authentication.
+2. Agent creation and model configuration.
+3. Custom skills and URL-based MCP server integration.
+4. Workflow orchestration with visible run events.
+5. Real-time streaming through chat and API.
+6. Deployment, API keys, usage tracking, and basic logs.
+7. Documentation and developer onboarding.
