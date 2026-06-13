@@ -34,7 +34,7 @@ jobs:
 
       - name: Lint changed files
         run: |
-          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD \
+          CHANGED=$(git diff --name-only --diff-filter=ACMR origin/${{ github.base_ref }}...HEAD \
             | { grep -E '\.(ts|tsx|js|mjs)$' || true; } | tr '\n' ' ')
           if [ -n "$CHANGED" ]; then
             echo "Linting: $CHANGED"
