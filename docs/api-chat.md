@@ -1,8 +1,10 @@
-# Chat Request API
+# Current Chat Streaming API
 
 ## Overview
 
-`POST /chat` streams a chat response from the Relivo backend chat agent using Server-Sent Events.
+`POST /chat` streams a chat response from the current Relivo backend chat agent using Server-Sent Events.
+
+This is the implemented frontend streaming contract for the chat experience in this repository. The long-term platform API is expected to expose published workflow runs at endpoints such as `POST /v1/workflows/{workflow_id}/runs`; see [Product requirements](./product-requirements.md) for that direction.
 
 Use this endpoint when a Vercel-hosted frontend sends a user message and needs response chunks as they are generated. This frontend uses plain `fetch` with `ReadableStream`; it does not use Vercel AI SDK `useChat` and does not run a local Next.js `/api/chat` generation route.
 
@@ -14,7 +16,7 @@ POST /api/relivo-chat
 
 That proxy only forwards bytes to the Relivo backend `POST /chat`; it does not generate model responses. This avoids browser CORS failures when the backend does not answer `OPTIONS` preflight requests.
 
-## Endpoint
+## Backend Endpoint
 
 ```http
 POST /chat

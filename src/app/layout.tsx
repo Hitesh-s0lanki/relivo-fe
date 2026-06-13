@@ -21,9 +21,35 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Relivo — AI Task Assistant",
+  title: {
+    default: "Relivo - Agent Orchestration Platform",
+    template: "%s | Relivo",
+  },
   description:
-    "Assign tasks, automate workflows, and get things done with Relivo.",
+    "Build, run, deploy, and embed production-ready AI agent workflows with Relivo.",
+  applicationName: "Relivo",
+  keywords: [
+    "Relivo",
+    "agent orchestration",
+    "AI agents",
+    "agent workflows",
+    "MCP",
+    "streaming API",
+    "embeddable AI chat",
+  ],
+  openGraph: {
+    title: "Relivo - Agent Orchestration Platform",
+    description:
+      "Build an agent workflow once, then use it through chat, APIs, SDKs, and embedded UI.",
+    siteName: "Relivo",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Relivo - Agent Orchestration Platform",
+    description:
+      "Build, run, deploy, and embed production-ready AI agent workflows.",
+  },
 };
 
 export default function RootLayout({

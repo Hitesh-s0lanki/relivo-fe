@@ -152,9 +152,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Relivo — AI Task Assistant",
+  title: "Relivo - Agent Orchestration Platform",
   description:
-    "Assign tasks, automate workflows, and get things done with Relivo.",
+    "Build, run, deploy, and embed production-ready AI agent workflows with Relivo.",
 };
 
 export default function RootLayout({

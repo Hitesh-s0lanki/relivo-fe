@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
+import { SettingsDialog } from "../settings/SettingsDialog";
 import { SidebarLogo } from "./SidebarLogo";
 import { SidebarTasks } from "./SidebarTasks";
 
@@ -38,19 +40,29 @@ const FOOTER_ITEMS = [
     icon: Plug,
     label: "Connectors",
     description: "Connect your tools & integrations",
-    href: "/app/connectors",
+    href: null,
+    settingsTab: "connectors",
   },
   {
     icon: Settings,
     label: "Settings",
     description: "Manage your account & preferences",
-    href: "/app/settings",
+    href: null,
+    settingsTab: "general",
   },
 ];
 
 const COLLAPSED_NAV = [{ icon: Plus, label: "New Chat", href: "/" }];
 
 export function AppSidebar({ collapsed, onCollapse }: AppSidebarProps) {
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [settingsTab, setSettingsTab] = useState("general");
+
+  function openSettings(tab: string) {
+    setSettingsTab(tab);
+    setSettingsOpen(true);
+  }
+
   return (
     <TooltipProvider>
       <aside
@@ -101,7 +113,7 @@ export function AppSidebar({ collapsed, onCollapse }: AppSidebarProps) {
 
             {/* Footer icons */}
             <div className="mt-auto flex flex-col items-center gap-0.5 border-t border-zinc-200 pt-2 dark:border-zinc-800">
-              {FOOTER_ITEMS.map(({ icon: Icon, label, href }) => (
+              {FOOTER_ITEMS.map(({ icon: Icon, label, href, settingsTab }) => (
                 <Tooltip key={label}>
                   <TooltipTrigger asChild>
                     {href ? (
@@ -114,6 +126,12 @@ export function AppSidebar({ collapsed, onCollapse }: AppSidebarProps) {
                       </Link>
                     ) : (
                       <button
+                        type="button"
+                        onClick={
+                          settingsTab
+                            ? () => openSettings(settingsTab)
+                            : undefined
+                        }
                         className="cursor-pointer rounded-md p-2 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
                         aria-label={label}
                       >
@@ -145,29 +163,37 @@ export function AppSidebar({ collapsed, onCollapse }: AppSidebarProps) {
               <div className="flex items-center justify-between">
                 {/* Utility icons */}
                 <div className="flex items-center gap-0.5">
-                  {FOOTER_ITEMS.map(({ icon: Icon, label, href }) => (
-                    <Tooltip key={label}>
-                      <TooltipTrigger asChild>
-                        {href ? (
-                          <Link
-                            href={href}
-                            className="cursor-pointer rounded-md p-2 transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
-                            aria-label={label}
-                          >
-                            <Icon className="size-4.5" />
-                          </Link>
-                        ) : (
-                          <button
-                            className="cursor-pointer rounded-md p-2 transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
-                            aria-label={label}
-                          >
-                            <Icon className="size-4.5" />
-                          </button>
-                        )}
-                      </TooltipTrigger>
-                      <TooltipContent side="top">{label}</TooltipContent>
-                    </Tooltip>
-                  ))}
+                  {FOOTER_ITEMS.map(
+                    ({ icon: Icon, label, href, settingsTab }) => (
+                      <Tooltip key={label}>
+                        <TooltipTrigger asChild>
+                          {href ? (
+                            <Link
+                              href={href}
+                              className="cursor-pointer rounded-md p-2 transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                              aria-label={label}
+                            >
+                              <Icon className="size-4.5" />
+                            </Link>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={
+                                settingsTab
+                                  ? () => openSettings(settingsTab)
+                                  : undefined
+                              }
+                              className="cursor-pointer rounded-md p-2 transition-colors duration-150 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                              aria-label={label}
+                            >
+                              <Icon className="size-4.5" />
+                            </button>
+                          )}
+                        </TooltipTrigger>
+                        <TooltipContent side="top">{label}</TooltipContent>
+                      </Tooltip>
+                    )
+                  )}
                 </div>
 
                 {/* User avatar */}
@@ -177,6 +203,12 @@ export function AppSidebar({ collapsed, onCollapse }: AppSidebarProps) {
           </div>
         )}
       </aside>
+      <SettingsDialog
+        open={settingsOpen}
+        activeTab={settingsTab}
+        onOpenChange={setSettingsOpen}
+        onActiveTabChange={setSettingsTab}
+      />
     </TooltipProvider>
   );
 }

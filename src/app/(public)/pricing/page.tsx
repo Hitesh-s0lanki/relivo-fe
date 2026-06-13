@@ -3,9 +3,9 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2, Zap } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Pricing — Relivo",
+  title: "Pricing",
   description:
-    "Simple, transparent pricing for building and scaling multi-agent AI systems.",
+    "Simple, transparent pricing for building and scaling AI agent workflows with Relivo.",
 };
 
 const plans = [

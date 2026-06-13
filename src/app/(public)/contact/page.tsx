@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Clock, Mail, MessageSquare, Zap } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Contact — Relivo",
+  title: "Contact",
   description:
     "Get in touch with the Relivo team for support, sales, or general inquiries.",
 };

@@ -34,6 +34,8 @@ import {
 import { cn } from "@/lib/utils";
 import type { Conversation, ConversationList } from "@/types/be-server";
 
+import { EmptyStateDemoCarousel } from "./EmptyStateDemoCarousel";
+
 const QUICK_ACTIONS = [
   {
     label: "Create an image",
@@ -346,27 +348,31 @@ function EmptyChatView({
   onStop: () => void;
 }) {
   return (
-    <div className="flex min-h-full items-start justify-center px-4 pt-[24vh] pb-10 sm:pt-[27vh]">
-      <div className="flex w-4xl flex-col items-center gap-8">
-        <div className="text-center">
-          <h1 className="text-2xl leading-tight font-medium text-zinc-950 sm:text-[28px] dark:text-zinc-50">
-            Good to see you, Hitesh.
-          </h1>
+    <div className="flex min-h-full flex-col items-center px-4 pt-[18vh] pb-8">
+      <div className="flex w-full max-w-3xl flex-1 flex-col items-center">
+        <div className="flex w-full flex-col items-center gap-7">
+          <div className="text-center">
+            <h1 className="text-2xl leading-tight font-medium text-zinc-950 sm:text-[28px] dark:text-zinc-50">
+              Good to see you, Hitesh.
+            </h1>
+          </div>
+
+          <div className="flex w-full justify-center">
+            <ChatComposer
+              input={input}
+              isStreaming={isStreaming}
+              onInputChange={onInputChange}
+              onStop={onStop}
+              onSubmit={onSubmit}
+              onSubmitText={onSubmitText}
+              variant="hero"
+            />
+          </div>
+
+          <QuickActions onSelect={onPromptSelect} />
         </div>
 
-        <div className="flex w-full justify-center">
-          <ChatComposer
-            input={input}
-            isStreaming={isStreaming}
-            onInputChange={onInputChange}
-            onStop={onStop}
-            onSubmit={onSubmit}
-            onSubmitText={onSubmitText}
-            variant="hero"
-          />
-        </div>
-
-        <QuickActions onSelect={onPromptSelect} />
+        <EmptyStateDemoCarousel />
       </div>
     </div>
   );
@@ -818,7 +824,7 @@ function HeroChatComposer({
   }
 
   return (
-    <form onSubmit={onSubmit} className="min-w-4xl">
+    <form onSubmit={onSubmit} className="w-full max-w-3xl">
       <div className="flex min-h-14 items-center gap-3 rounded-full border border-zinc-200 bg-white px-4 py-2 shadow-[0_16px_44px_rgba(15,23,42,0.08)] transition-colors focus-within:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900 dark:focus-within:border-zinc-600">
         <IconButton label="Add task">
           <Plus className="size-4.5" />
