@@ -1,5 +1,6 @@
 import { BeServerClient } from "@/lib/API/api-client/be-server-client";
 import {
+  routeHandlerBackendError,
   routeHandlerError,
   routeHandlerSuccess,
 } from "@/lib/API/route-handler-response";
@@ -17,10 +18,6 @@ export const POST = async (request: Request) => {
     await BeServerClient.cancelResponse(data);
     return routeHandlerSuccess("Response canceled successfully", 200);
   } catch (error: unknown) {
-    const err = error as { message?: string; response?: { status?: number } };
-    return routeHandlerError(
-      err?.message ?? "Failed to cancel response",
-      err?.response?.status ?? 500
-    );
+    return routeHandlerBackendError(error, "Failed to cancel response");
   }
 };

@@ -1,5 +1,6 @@
 import { BeServerClient } from "@/lib/API/api-client/be-server-client";
 import {
+  routeHandlerBackendError,
   routeHandlerError,
   routeHandlerSuccess,
 } from "@/lib/API/route-handler-response";
@@ -23,11 +24,7 @@ export const GET = async (
     });
     return routeHandlerSuccess("Messages fetched successfully", 200, messages);
   } catch (error: unknown) {
-    const err = error as { message?: string; response?: { status?: number } };
-    return routeHandlerError(
-      err?.message ?? "Failed to fetch messages",
-      err?.response?.status ?? 500
-    );
+    return routeHandlerBackendError(error, "Failed to fetch messages");
   }
 };
 
@@ -61,10 +58,9 @@ export const POST = async (
     });
     return routeHandlerSuccess("Messages fetched successfully", 200, messages);
   } catch (error: unknown) {
-    const err = error as { message?: string; response?: { status?: number } };
-    return routeHandlerError(
-      err?.message ?? "Failed to handle conversation message",
-      err?.response?.status ?? 500
+    return routeHandlerBackendError(
+      error,
+      "Failed to handle conversation message"
     );
   }
 };
