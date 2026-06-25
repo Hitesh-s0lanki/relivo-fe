@@ -79,6 +79,7 @@ export interface ConversationMessagesResponse {
 export interface ConversationMessageCreate {
   role: "user" | "agent";
   text?: string | null;
+  attachments?: AttachmentInput[];
   metadata?: Record<string, unknown> | null;
   tool_calls?: ConversationToolCallCreate[];
   reasoning_entries?: ConversationReasoningEntryCreate[];
@@ -114,6 +115,7 @@ export interface ConversationMessageApiRecord {
   role: "user" | "agent";
   text: string | null;
   metadata: Record<string, unknown> | null;
+  attachments?: AttachmentInput[];
   created_at: string;
   updated_at: string;
   tool_calls?: ConversationToolCallApiRecord[];
@@ -145,9 +147,12 @@ export interface ConversationReasoningEntryApiRecord {
 }
 
 export interface AttachmentInput {
+  id?: string;
   url: string;
   mediaType: string;
   title: string;
+  size?: number;
+  providerFileId?: string;
 }
 
 export interface UserMessageRequest {

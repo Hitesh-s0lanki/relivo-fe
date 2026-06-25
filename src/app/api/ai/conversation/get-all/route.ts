@@ -1,6 +1,6 @@
 import { BeServerClient } from "@/lib/API/api-client/be-server-client";
 import {
-  routeHandlerError,
+  routeHandlerBackendError,
   routeHandlerSuccess,
 } from "@/lib/API/route-handler-response";
 import { getConversationUserId } from "@/lib/conversation-user";
@@ -16,11 +16,7 @@ export const GET = async () => {
       conversations
     );
   } catch (error: unknown) {
-    const err = error as { message?: string; response?: { status?: number } };
-    return routeHandlerError(
-      err?.message ?? "Failed to fetch conversations",
-      err?.response?.status ?? 500
-    );
+    return routeHandlerBackendError(error, "Failed to fetch conversations");
   }
 };
 
@@ -44,10 +40,6 @@ export const POST = async (request: Request) => {
       conversations
     );
   } catch (error: unknown) {
-    const err = error as { message?: string; response?: { status?: number } };
-    return routeHandlerError(
-      err?.message ?? "Failed to fetch conversations",
-      err?.response?.status ?? 500
-    );
+    return routeHandlerBackendError(error, "Failed to fetch conversations");
   }
 };

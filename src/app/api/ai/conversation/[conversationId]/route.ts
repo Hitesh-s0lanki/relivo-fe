@@ -1,5 +1,6 @@
 import { BeServerClient } from "@/lib/API/api-client/be-server-client";
 import {
+  routeHandlerBackendError,
   routeHandlerError,
   routeHandlerSuccess,
 } from "@/lib/API/route-handler-response";
@@ -27,8 +28,8 @@ export const GET = async (
       200,
       conversation
     );
-  } catch {
-    return routeHandlerError("Failed to fetch conversation", 500);
+  } catch (error: unknown) {
+    return routeHandlerBackendError(error, "Failed to fetch conversation");
   }
 };
 
@@ -57,11 +58,7 @@ export const PUT = async (
       conversation
     );
   } catch (error: unknown) {
-    const err = error as { message?: string; response?: { status?: number } };
-    return routeHandlerError(
-      err?.message ?? "Failed to update conversation",
-      err?.response?.status ?? 500
-    );
+    return routeHandlerBackendError(error, "Failed to update conversation");
   }
 };
 
@@ -79,7 +76,7 @@ export const DELETE = async (
 
     await BeServerClient.deleteConversation(conversationId, userId);
     return routeHandlerSuccess("Conversation deleted successfully", 200);
-  } catch {
-    return routeHandlerError("Failed to delete conversation", 500);
+  } catch (error: unknown) {
+    return routeHandlerBackendError(error, "Failed to delete conversation");
   }
 };

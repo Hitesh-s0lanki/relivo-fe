@@ -6,6 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "sonner";
 
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { ReactQueryProvider } from "@/providers/query-client-provider";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -67,7 +68,9 @@ export default function RootLayout({
         className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
       >
         <body className="flex min-h-full flex-col">
-          <ReactQueryProvider>{children}</ReactQueryProvider>
+          <TooltipProvider>
+            <ReactQueryProvider>{children}</ReactQueryProvider>
+          </TooltipProvider>
           <Toaster richColors position="bottom-right" visibleToasts={3} />
           {process.env.VERCEL_ENV === "production" && <Analytics />}
         </body>

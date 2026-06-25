@@ -2,6 +2,7 @@ import { after } from "next/server";
 
 import { BeServerClient } from "@/lib/API/api-client/be-server-client";
 import {
+  routeHandlerBackendError,
   routeHandlerError,
   routeHandlerSuccess,
 } from "@/lib/API/route-handler-response";
@@ -55,10 +56,6 @@ export const POST = async (request: Request) => {
       conversation
     );
   } catch (error: unknown) {
-    const err = error as { message?: string; response?: { status?: number } };
-    return routeHandlerError(
-      err?.message ?? "Failed to create conversation",
-      err?.response?.status ?? 500
-    );
+    return routeHandlerBackendError(error, "Failed to create conversation");
   }
 };
