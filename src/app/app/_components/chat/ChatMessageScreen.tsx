@@ -54,6 +54,7 @@ import {
 } from "@/components/ai-elements/prompt-input";
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { type ToolPart } from "@/components/ai-elements/tool";
+import { ImageGallery } from "@/components/chat/image-gallery/ImageGallery";
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
@@ -849,47 +850,93 @@ function CompactJsonBlock({ label, value }: { label: string; value: unknown }) {
 }
 
 function UserAttachmentGrid({ parts }: { parts: ChatAttachmentPart[] }) {
+  const imageParts = parts.filter((part) =>
+    isImageLikeFile(part.mediaType, part.title || part.filename)
+  );
+  const fileParts = parts.filter(
+    (part) => !isImageLikeFile(part.mediaType, part.title || part.filename)
+  );
+
   return (
-    <div className="ml-auto flex max-w-full flex-wrap justify-end gap-3">
-      {parts.map((part) => (
-        <AttachmentTile
-          key={getMessagePartKey("attachment", part)}
-          part={part}
+    <div className="ml-auto flex max-w-full flex-col items-end gap-3">
+      {imageParts.length > 0 && (
+        <AttachmentImageGallery
+          key={`message-attachments-${imageParts.map((part) => part.providerFileId ?? part.url).join("-")}`}
+          keyProp={`message-attachments-${imageParts.map((part) => part.providerFileId ?? part.url).join("-")}`}
+          parts={imageParts}
         />
-      ))}
+      )}
+      {fileParts.length > 0 && (
+        <div className="flex max-w-full flex-wrap justify-end gap-3">
+          {fileParts.map((part) => (
+            <AttachmentFileTile
+              key={getMessagePartKey("attachment", part)}
+              part={part}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
 function AttachmentPart({ part }: { part: ChatAttachmentPart }) {
-  return <AttachmentTile part={part} />;
+  if (isImageLikeFile(part.mediaType, part.title || part.filename)) {
+    return (
+      <AttachmentImageGallery
+        key={`message-attachment-${part.providerFileId ?? part.url}`}
+        keyProp={`message-attachment-${part.providerFileId ?? part.url}`}
+        parts={[part]}
+      />
+    );
+  }
+
+  return <AttachmentFileTile part={part} />;
 }
 
-function AttachmentTile({ part }: { part: ChatAttachmentPart }) {
-  const title = part.title || part.filename || "Attachment";
-  const isImage = isImageLikeFile(part.mediaType, title);
-  const [imageUrl, setImageUrl] = useState(() => part.previewUrl ?? part.url);
-  const [linkUrl, setLinkUrl] = useState(() => part.url);
-  const [failed, setFailed] = useState(false);
-  const [isRefreshingPreview, setIsRefreshingPreview] = useState(
-    () => isImage && !part.previewUrl && !!part.providerFileId
+function AttachmentImageGallery({
+  keyProp,
+  parts,
+}: {
+  keyProp: string;
+  parts: ChatAttachmentPart[];
+}) {
+  const [images, setImages] = useState(() =>
+    parts.map((part) => part.previewUrl ?? part.url)
   );
-  const refreshAttemptedRef = useRef(false);
+  const [isRefreshingPreview, setIsRefreshingPreview] = useState(() =>
+    parts.some((part) => !part.previewUrl && !!part.providerFileId)
+  );
 
   useEffect(() => {
-    if (!isImage || part.previewUrl || !part.providerFileId) return;
-
     let ignore = false;
-    refreshAttemptedRef.current = true;
-    void refreshAttachmentPresignedUrl(part.providerFileId)
-      .then((attachment) => {
-        if (ignore) return;
-        setImageUrl(attachment.url);
-        setLinkUrl(attachment.url);
-        setFailed(false);
+
+    const refreshableParts = parts
+      .map((part, index) => ({ index, part }))
+      .filter(({ part }) => !part.previewUrl && !!part.providerFileId);
+
+    if (refreshableParts.length === 0) return;
+
+    void Promise.all(
+      refreshableParts.flatMap(({ index, part }) => {
+        if (!part.providerFileId) return [];
+
+        return [
+          refreshAttachmentPresignedUrl(part.providerFileId).then(
+            (attachment) => ({ attachment, index })
+          ),
+        ];
       })
-      .catch(() => {
-        // Keep the original URL and let the image onError fallback handle it.
+    )
+      .then((refreshed) => {
+        if (ignore) return;
+        setImages((currentImages) => {
+          const nextImages = [...currentImages];
+          for (const { attachment, index } of refreshed) {
+            nextImages[index] = attachment.url;
+          }
+          return nextImages;
+        });
       })
       .finally(() => {
         if (ignore) return;
@@ -899,59 +946,42 @@ function AttachmentTile({ part }: { part: ChatAttachmentPart }) {
     return () => {
       ignore = true;
     };
-  }, [isImage, part.previewUrl, part.providerFileId, part.url]);
+  }, [parts]);
 
-  function handleImageError() {
-    if (!part.providerFileId || refreshAttemptedRef.current) {
-      setFailed(true);
-      return;
-    }
+  return (
+    <div className="relative">
+      <ImageGallery
+        disableDownload
+        images={images}
+        isThumbnailMode
+        keyProp={keyProp}
+      />
+      {isRefreshingPreview && (
+        <div className="pointer-events-none absolute inset-0 grid place-items-center rounded-[18px] bg-black/20 text-white">
+          <Spinner className="size-5" />
+        </div>
+      )}
+    </div>
+  );
+}
 
-    refreshAttemptedRef.current = true;
-    setIsRefreshingPreview(true);
-    void refreshAttachmentPresignedUrl(part.providerFileId)
-      .then((attachment) => {
-        setImageUrl(attachment.url);
-        setLinkUrl(attachment.url);
-        setFailed(false);
-      })
-      .catch(() => {
-        setFailed(true);
-      })
-      .finally(() => {
-        setIsRefreshingPreview(false);
-      });
-  }
-
+function AttachmentFileTile({ part }: { part: ChatAttachmentPart }) {
+  const title = part.title || part.filename || "Attachment";
   return (
     <a
       className="group relative grid size-32 shrink-0 place-items-center overflow-hidden rounded-[18px] bg-zinc-100 text-zinc-500 shadow-sm ring-1 ring-zinc-200/70 transition hover:bg-zinc-50 sm:size-40 dark:bg-zinc-900 dark:text-zinc-400 dark:ring-zinc-800"
-      href={linkUrl}
+      href={part.url}
       rel="noreferrer"
       target="_blank"
       title={title}
     >
-      {isImage && !failed ? (
-        <img
-          alt={title}
-          className="size-full object-cover"
-          onError={handleImageError}
-          src={imageUrl}
-        />
-      ) : (
-        <div className="flex min-w-0 flex-col items-center gap-2 px-3 text-center">
-          <FileIcon className="size-8 text-zinc-500 dark:text-zinc-400" />
-          <span className="line-clamp-2 max-w-full text-xs font-medium text-zinc-600 dark:text-zinc-300">
-            {title}
-          </span>
-        </div>
-      )}
-      {isRefreshingPreview && (
-        <div className="absolute inset-0 grid place-items-center bg-black/25 text-white">
-          <Spinner className="size-5" />
-        </div>
-      )}
-      {!isImage && typeof part.size === "number" && (
+      <div className="flex min-w-0 flex-col items-center gap-2 px-3 text-center">
+        <FileIcon className="size-8 text-zinc-500 dark:text-zinc-400" />
+        <span className="line-clamp-2 max-w-full text-xs font-medium text-zinc-600 dark:text-zinc-300">
+          {title}
+        </span>
+      </div>
+      {typeof part.size === "number" && (
         <span className="absolute right-2 bottom-2 rounded bg-white/85 px-1.5 py-0.5 text-[10px] font-medium text-zinc-600 shadow-sm dark:bg-zinc-950/80 dark:text-zinc-300">
           {formatFileSize(part.size)}
         </span>
