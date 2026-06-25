@@ -62,6 +62,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Spinner } from "@/components/ui/spinner";
+import { RELIVO_NEW_CHAT_EVENT } from "@/lib/chat-events";
 import {
   CURRENT_USER_CONVERSATIONS_QUERY_KEY,
   upsertConversationInList,
@@ -231,6 +232,36 @@ export function ChatMessageScreen({
   const hasMessages = visibleMessages.length > 0;
   const showAssistantPlaceholder =
     isStreaming && !lastAssistantMessageHasText(messages);
+
+  useEffect(() => {
+    abortControllerRef.current?.abort();
+    abortControllerRef.current = null;
+    shouldRedirectToChatRef.current = redirectToChatOnFirstMessage;
+    setConversationId(id);
+    setInput("");
+    setMessages(normalizeInitialMessages(initialMessages));
+    setStatus("ready");
+    setError(null);
+  }, [id, initialMessages, redirectToChatOnFirstMessage]);
+
+  useEffect(() => {
+    function handleNewChat() {
+      abortControllerRef.current?.abort();
+      abortControllerRef.current = null;
+      shouldRedirectToChatRef.current = true;
+      setConversationId(undefined);
+      setInput("");
+      setMessages([]);
+      setStatus("ready");
+      setError(null);
+    }
+
+    window.addEventListener(RELIVO_NEW_CHAT_EVENT, handleNewChat);
+
+    return () => {
+      window.removeEventListener(RELIVO_NEW_CHAT_EVENT, handleNewChat);
+    };
+  }, []);
 
   useEffect(() => {
     if (!hasMessages) return;
