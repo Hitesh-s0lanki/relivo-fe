@@ -2,7 +2,10 @@ import axios from "axios";
 
 // Server-side: calls relivo-be directly
 export const beServerClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BE_SERVER_URL ?? "http://localhost:8000",
+  baseURL:
+    process.env.RELIVO_API_URL ??
+    process.env.NEXT_PUBLIC_RELIVO_API_URL ??
+    "http://localhost:8000",
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",

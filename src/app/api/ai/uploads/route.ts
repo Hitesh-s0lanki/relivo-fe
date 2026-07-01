@@ -11,9 +11,7 @@ export const runtime = "nodejs";
 
 export async function POST(request: Request) {
   const apiUrl =
-    process.env.RELIVO_API_URL ??
-    process.env.NEXT_PUBLIC_RELIVO_API_URL ??
-    process.env.NEXT_PUBLIC_BE_SERVER_URL;
+    process.env.RELIVO_API_URL ?? process.env.NEXT_PUBLIC_RELIVO_API_URL;
 
   if (!apiUrl) {
     return routeHandlerError("Relivo backend URL is not configured.", 500);
