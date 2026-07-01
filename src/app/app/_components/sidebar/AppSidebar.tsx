@@ -12,6 +12,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { RELIVO_NEW_CHAT_EVENT } from "@/lib/chat-events";
 import { cn } from "@/lib/utils";
 
 import { SettingsDialog } from "../settings/SettingsDialog";
@@ -58,6 +59,10 @@ export function AppSidebar({ collapsed, onCollapse }: AppSidebarProps) {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [settingsTab, setSettingsTab] = useState("general");
 
+  function handleNewChatClick() {
+    window.dispatchEvent(new Event(RELIVO_NEW_CHAT_EVENT));
+  }
+
   function openSettings(tab: string) {
     setSettingsTab(tab);
     setSettingsOpen(true);
@@ -91,6 +96,9 @@ export function AppSidebar({ collapsed, onCollapse }: AppSidebarProps) {
                     {href ? (
                       <Link
                         href={href}
+                        onClick={
+                          label === "New Chat" ? handleNewChatClick : undefined
+                        }
                         className="cursor-pointer rounded-md p-1.5 text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
                         aria-label={label}
                       >

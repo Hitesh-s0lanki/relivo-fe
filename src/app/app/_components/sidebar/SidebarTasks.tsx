@@ -2,10 +2,11 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { Plus, Search } from "lucide-react";
 
+import { RELIVO_NEW_CHAT_EVENT } from "@/lib/chat-events";
 import {
   CURRENT_USER_CONVERSATIONS_QUERY_KEY,
   sortConversationsByUpdatedAt,
@@ -22,6 +23,7 @@ const LOADING_ROW_IDS = [
 
 export function SidebarTasks() {
   const pathname = usePathname();
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const {
     data: conversationList,
@@ -46,15 +48,21 @@ export function SidebarTasks() {
     );
   }, [conversations, searchQuery]);
 
+  function handleNewChat() {
+    window.dispatchEvent(new Event(RELIVO_NEW_CHAT_EVENT));
+    router.push("/");
+  }
+
   return (
     <div className="flex flex-1 flex-col overflow-y-auto px-3 pt-1 pb-3">
-      <Link
-        href="/"
+      <button
+        type="button"
+        onClick={handleNewChat}
         className="flex h-9 w-full items-center gap-2.5 rounded-lg bg-zinc-100 px-3 text-[13px] font-semibold text-zinc-900 transition-colors hover:bg-zinc-200 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-zinc-800"
       >
         <Plus className="size-4 shrink-0 stroke-[2.25]" />
         <span>New chat</span>
-      </Link>
+      </button>
 
       <label className="relative mt-3 block">
         <span className="sr-only">Search chats</span>
