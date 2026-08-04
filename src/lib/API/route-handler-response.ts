@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+import { logApiError } from "@/lib/API/log-error";
+
 const BACKEND_UNAVAILABLE_MESSAGE =
   "Relivo backend is temporarily unavailable. Please try again in a moment.";
 
@@ -48,7 +50,7 @@ export const routeHandlerBackendError = (
 ): NextResponse<RouteHandlerErrorResponse> => {
   const status = getErrorStatus(error);
 
-  console.error(fallbackMessage, error);
+  logApiError(fallbackMessage, error);
 
   return routeHandlerError(
     getBackendErrorMessage(error, status, fallbackMessage),

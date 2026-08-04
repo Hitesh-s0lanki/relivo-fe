@@ -1,3 +1,4 @@
+import { logApiError } from "@/lib/API/log-error";
 import {
   routeHandlerError,
   routeHandlerSuccess,
@@ -28,7 +29,7 @@ export async function POST(request: Request) {
     try {
       formData.append("userId", await getConversationUserId());
     } catch (error) {
-      console.error("Failed to resolve upload user", error);
+      logApiError("Failed to resolve upload user", error);
       return routeHandlerError("Unable to resolve upload user.", 401);
     }
   }
@@ -45,7 +46,7 @@ export async function POST(request: Request) {
       return routeHandlerError("Upload request was cancelled.", 499);
     }
 
-    console.error("Failed to reach Relivo upload server", error);
+    logApiError("Failed to reach Relivo upload server", error);
     return routeHandlerError(BACKEND_UNAVAILABLE_MESSAGE, 503);
   }
 
