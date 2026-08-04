@@ -56,27 +56,25 @@ import { cn } from "@/lib/utils";
 import type { McpServer, McpServerStatus } from "@/types/be-server";
 
 import { AddMcpServerDialog } from "./AddMcpServerDialog";
-import { EmptyState, ErrorNote, SettingsSection } from "./SettingsPrimitives";
+import {
+  DetailRow,
+  EmptyState,
+  ErrorNote,
+  SettingsSection,
+} from "./SettingsPrimitives";
 
 export function McpSettings() {
   const { data, isPending, isError, error, refetch } = useMcpServers();
   const [addOpen, setAddOpen] = useState(false);
 
   const servers = data ?? [];
-  const connected = servers.filter(
-    ({ enabled, status }) => enabled && status === "ready"
-  ).length;
-  const toolCount = servers.reduce(
-    (total, server) => total + (server.enabled ? server.toolCount : 0),
-    0
-  );
 
   return (
     <div className="space-y-7">
       <SettingsSection
         title="Custom MCP servers"
         icon={Blocks}
-        description="Remote servers whose tools Relivo can call in your chats."
+        description="Tools Relivo can call in your chats."
         action={
           <Button
             size="sm"
@@ -91,7 +89,7 @@ export function McpSettings() {
         {isPending ? (
           <div className="space-y-2">
             {[0, 1].map((row) => (
-              <Skeleton key={row} className="h-[86px] rounded-xl" />
+              <Skeleton key={row} className="h-14 rounded-xl" />
             ))}
           </div>
         ) : isError ? (
@@ -106,7 +104,7 @@ export function McpSettings() {
           <EmptyState
             icon={Plug}
             title="No MCP servers yet"
-            description="Add a remote MCP server by URL and its tools become available to Relivo in every chat."
+            description="Add a server by URL to use its tools in every chat."
             action={
               <Button
                 size="sm"
@@ -119,25 +117,17 @@ export function McpSettings() {
             }
           />
         ) : (
-          <>
-            <p className="text-xs text-muted-foreground">
-              {connected} of {servers.length}{" "}
-              {servers.length === 1 ? "server" : "servers"} connected ·{" "}
-              {toolCount} {toolCount === 1 ? "tool" : "tools"} available
-            </p>
-            <div className="space-y-2">
-              {servers.map((server) => (
-                <McpServerCard key={server.id} server={server} />
-              ))}
-            </div>
-          </>
+          <div className="space-y-2">
+            {servers.map((server) => (
+              <McpServerCard key={server.id} server={server} />
+            ))}
+          </div>
         )}
       </SettingsSection>
 
-      <p className="text-xs leading-relaxed text-muted-foreground">
-        Only use connectors from developers you trust. Relivo does not control
-        which tools developers make available and cannot verify that they will
-        work as intended or that they won&apos;t change.
+      <p className="text-xs text-muted-foreground">
+        Only add servers from developers you trust — Relivo can&apos;t verify
+        the tools they expose.
       </p>
 
       <AddMcpServerDialog
@@ -150,7 +140,7 @@ export function McpSettings() {
 }
 
 function McpServerCard({ server }: { server: McpServer }) {
-  const [toolsOpen, setToolsOpen] = useState(false);
+  const [detailsOpen, setDetailsOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   const update = useUpdateMcpServer();
@@ -215,126 +205,126 @@ function McpServerCard({ server }: { server: McpServer }) {
         !server.enabled && "opacity-60"
       )}
     >
-      <div className="flex items-start gap-3 px-3.5 py-3">
-        <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg bg-muted">
-          <Plug className="size-4 text-muted-foreground" />
-        </span>
-
-        <div className="min-w-0 flex-1 space-y-1">
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className="truncate text-[13px] font-medium text-foreground">
+      <Collapsible open={detailsOpen} onOpenChange={setDetailsOpen}>
+        <div className="flex items-center gap-2 px-3.5 py-2.5">
+          {/* The switch and menu sit outside the trigger — nesting controls
+              inside a button would be invalid and unreachable by keyboard. */}
+          <CollapsibleTrigger className="flex min-w-0 flex-1 cursor-pointer items-center gap-3 text-left">
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-muted">
+              <Plug className="size-4 text-muted-foreground" />
+            </span>
+            <span className="min-w-0 truncate text-[13px] font-medium text-foreground">
               {label}
             </span>
             <McpStatusBadge status={server.status} />
-            {server.auth.type !== "none" && (
-              <Badge variant="outline" className="gap-1 text-muted-foreground">
-                <Lock className="size-3" />
-                {authLabel(server)}
-              </Badge>
-            )}
+            <ChevronDown
+              className={cn(
+                "size-3.5 shrink-0 text-muted-foreground transition-transform duration-150",
+                detailsOpen && "rotate-180"
+              )}
+            />
+          </CollapsibleTrigger>
+
+          <div className="flex shrink-0 items-center gap-1">
+            <Switch
+              checked={server.enabled}
+              onCheckedChange={toggleEnabled}
+              disabled={busy}
+              aria-label={`${server.enabled ? "Disable" : "Enable"} ${label}`}
+              className="cursor-pointer"
+            />
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  disabled={busy}
+                  aria-label={`Actions for ${label}`}
+                  className="cursor-pointer text-muted-foreground"
+                >
+                  <Ellipsis />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-44">
+                <DropdownMenuItem
+                  onSelect={() => void runTest()}
+                  className="cursor-pointer"
+                >
+                  <Link2 />
+                  Test connection
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onSelect={() => void copyUrl()}
+                  className="cursor-pointer"
+                >
+                  <Copy />
+                  Copy URL
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  variant="destructive"
+                  onSelect={() => setConfirmDelete(true)}
+                  className="cursor-pointer"
+                >
+                  <Trash2 />
+                  Remove
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
+        </div>
 
-          <p
-            className="truncate font-mono text-[11px] text-muted-foreground"
-            title={server.url}
-          >
-            {server.url}
-          </p>
-
-          <p className="truncate text-[11px] text-muted-foreground">
-            <span className="font-mono">mcp__{server.name}__*</span> ·{" "}
-            {server.transport === "sse" ? "SSE" : "HTTP"} ·{" "}
-            {server.lastConnectedAt
-              ? `connected ${formatRelative(server.lastConnectedAt)}`
-              : "never connected"}
-          </p>
-
+        <CollapsibleContent>
           {server.statusDetail && server.status !== "ready" && (
-            <p className="flex items-start gap-1.5 pt-0.5 text-[11px] leading-relaxed text-amber-700 dark:text-amber-400">
+            <p className="flex items-start gap-1.5 border-t border-border/60 px-3.5 py-2.5 text-[11px] leading-relaxed text-amber-700 dark:text-amber-400">
               <CircleAlert className="mt-px size-3 shrink-0" />
               <span className="min-w-0">{server.statusDetail}</span>
             </p>
           )}
-        </div>
 
-        <div className="flex shrink-0 items-center gap-1">
-          <Switch
-            checked={server.enabled}
-            onCheckedChange={toggleEnabled}
-            disabled={busy}
-            aria-label={`${server.enabled ? "Disable" : "Enable"} ${label}`}
-            className="cursor-pointer"
-          />
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                disabled={busy}
-                aria-label={`Actions for ${label}`}
-                className="cursor-pointer text-muted-foreground"
-              >
-                <Ellipsis />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-44">
-              <DropdownMenuItem
-                onSelect={() => void runTest()}
-                className="cursor-pointer"
-              >
-                <Link2 />
-                Test connection
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onSelect={() => void copyUrl()}
-                className="cursor-pointer"
-              >
-                <Copy />
-                Copy URL
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                variant="destructive"
-                onSelect={() => setConfirmDelete(true)}
-                className="cursor-pointer"
-              >
-                <Trash2 />
-                Remove
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-
-      {server.tools.length > 0 && (
-        <Collapsible open={toolsOpen} onOpenChange={setToolsOpen}>
-          <CollapsibleTrigger className="flex w-full cursor-pointer items-center gap-1.5 border-t border-border/60 px-3.5 py-2 text-[11px] font-medium text-muted-foreground transition-colors duration-150 hover:text-foreground">
-            <Wrench className="size-3" />
-            {server.toolCount} {server.toolCount === 1 ? "tool" : "tools"}
-            <ChevronDown
-              className={cn(
-                "size-3 transition-transform duration-150",
-                toolsOpen && "rotate-180"
-              )}
+          <div className="border-t border-border/60">
+            <DetailRow label="URL" value={server.url} mono copyable />
+            <DetailRow
+              label="Transport"
+              value={server.transport === "sse" ? "SSE" : "HTTP"}
             />
-          </CollapsibleTrigger>
-          <CollapsibleContent className="space-y-1.5 border-t border-border/60 px-3.5 py-2.5">
-            {server.tools.map((tool) => (
-              <div key={tool.name} className="min-w-0">
-                <p className="truncate font-mono text-[11px] text-foreground">
-                  {tool.name}
-                </p>
-                {tool.description && (
-                  <p className="truncate text-[11px] text-muted-foreground">
-                    {tool.description}
+            <DetailRow
+              label="Last connected"
+              value={
+                server.lastConnectedAt
+                  ? formatRelative(server.lastConnectedAt)
+                  : null
+              }
+            />
+            <DetailRow
+              label="Auth"
+              value={server.auth.type === "none" ? null : authLabel(server)}
+            />
+          </div>
+
+          {server.tools.length > 0 && (
+            <div className="space-y-1.5 border-t border-border/60 px-3.5 py-2.5">
+              <p className="flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground">
+                <Wrench className="size-3" />
+                {server.toolCount} {server.toolCount === 1 ? "tool" : "tools"}
+              </p>
+              {server.tools.map((tool) => (
+                <div key={tool.name} className="min-w-0">
+                  <p className="truncate font-mono text-[11px] text-foreground">
+                    {tool.name}
                   </p>
-                )}
-              </div>
-            ))}
-          </CollapsibleContent>
-        </Collapsible>
-      )}
+                  {tool.description && (
+                    <p className="truncate text-[11px] text-muted-foreground">
+                      {tool.description}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </CollapsibleContent>
+      </Collapsible>
 
       <AlertDialog open={confirmDelete} onOpenChange={setConfirmDelete}>
         <AlertDialogContent>
