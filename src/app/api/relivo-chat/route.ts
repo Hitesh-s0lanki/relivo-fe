@@ -1,3 +1,5 @@
+import { logApiError } from "@/lib/API/log-error";
+
 export const runtime = "nodejs";
 
 const RELIVO_AI_UNAVAILABLE_MESSAGE =
@@ -49,7 +51,7 @@ export async function POST(request: Request) {
       );
     }
 
-    console.error("Failed to reach Relivo AI server", error);
+    logApiError("Failed to reach Relivo AI server", error);
     return Response.json(
       {
         success: false,

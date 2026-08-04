@@ -1,3 +1,4 @@
+import { logApiError } from "@/lib/API/log-error";
 import {
   routeHandlerError,
   routeHandlerSuccess,
@@ -40,7 +41,7 @@ export async function GET(
       return routeHandlerError("Presigned URL request was cancelled.", 499);
     }
 
-    console.error("Failed to refresh upload presigned URL", error);
+    logApiError("Failed to refresh upload presigned URL", error);
     return routeHandlerError(BACKEND_UNAVAILABLE_MESSAGE, 503);
   }
 

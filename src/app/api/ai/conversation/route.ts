@@ -1,6 +1,7 @@
 import { after } from "next/server";
 
 import { BeServerClient } from "@/lib/API/api-client/be-server-client";
+import { logApiError } from "@/lib/API/log-error";
 import {
   routeHandlerBackendError,
   routeHandlerError,
@@ -45,7 +46,7 @@ export const POST = async (request: Request) => {
             title: generatedTitle,
           });
         } catch (error) {
-          console.error("Failed to generate conversation title", error);
+          logApiError("Failed to generate conversation title", error);
         }
       });
     }
