@@ -9,6 +9,13 @@ import type {
   ConversationMessagesResponse,
   ConversationUpdate,
   GetAllConversationsRequest,
+  McpServer,
+  McpServerCreate,
+  McpServerTestResult,
+  McpServerUpdate,
+  RelivoUser,
+  RelivoUserProfileInput,
+  RelivoUserSyncInput,
 } from "@/types/be-server";
 
 interface RouteHandlerStandardResponse {
@@ -21,6 +28,57 @@ interface RouteHandlerDataResponse<T> extends RouteHandlerStandardResponse {
 }
 
 export class RouteHandlerClient {
+  static async getRelivoUser() {
+    return routeHandlerAxiosInstance.get<
+      RouteHandlerDataResponse<RelivoUser | null>
+    >("/api/user");
+  }
+
+  static async syncRelivoUser(body: RelivoUserSyncInput = {}) {
+    return routeHandlerAxiosInstance.put<RouteHandlerDataResponse<RelivoUser>>(
+      "/api/user",
+      body
+    );
+  }
+
+  static async updateRelivoUser(body: RelivoUserProfileInput) {
+    return routeHandlerAxiosInstance.patch<
+      RouteHandlerDataResponse<RelivoUser>
+    >("/api/user", body);
+  }
+
+  static async getMcpServers() {
+    return routeHandlerAxiosInstance.get<RouteHandlerDataResponse<McpServer[]>>(
+      "/api/user/mcp-servers"
+    );
+  }
+
+  static async createMcpServer(body: McpServerCreate) {
+    return routeHandlerAxiosInstance.post<RouteHandlerDataResponse<McpServer>>(
+      "/api/user/mcp-servers",
+      body
+    );
+  }
+
+  static async updateMcpServer(serverId: string, body: McpServerUpdate) {
+    return routeHandlerAxiosInstance.patch<RouteHandlerDataResponse<McpServer>>(
+      `/api/user/mcp-servers/${serverId}`,
+      body
+    );
+  }
+
+  static async deleteMcpServer(serverId: string) {
+    return routeHandlerAxiosInstance.delete<RouteHandlerStandardResponse>(
+      `/api/user/mcp-servers/${serverId}`
+    );
+  }
+
+  static async testMcpServer(serverId: string) {
+    return routeHandlerAxiosInstance.post<
+      RouteHandlerDataResponse<McpServerTestResult>
+    >(`/api/user/mcp-servers/${serverId}/test`);
+  }
+
   static async createConversation(body: ConversationCreate) {
     return routeHandlerAxiosInstance.post<
       RouteHandlerDataResponse<Conversation>

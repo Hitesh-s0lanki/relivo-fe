@@ -41,15 +41,14 @@ const FOOTER_ITEMS = [
     icon: Plug,
     label: "Connectors",
     description: "Connect your tools & integrations",
-    href: null,
-    settingsTab: "connectors",
+    href: "/app/connectors",
   },
   {
     icon: Settings,
     label: "Settings",
     description: "Manage your account & preferences",
     href: null,
-    settingsTab: "general",
+    settingsTab: "personal",
   },
 ];
 
@@ -57,7 +56,7 @@ const COLLAPSED_NAV = [{ icon: Plus, label: "New Chat", href: "/" }];
 
 export function AppSidebar({ collapsed, onCollapse }: AppSidebarProps) {
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [settingsTab, setSettingsTab] = useState("general");
+  const [settingsTab, setSettingsTab] = useState("personal");
 
   function handleNewChatClick() {
     window.dispatchEvent(new Event(RELIVO_NEW_CHAT_EVENT));
